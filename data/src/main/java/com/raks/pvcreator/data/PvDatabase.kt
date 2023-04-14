@@ -14,4 +14,8 @@ abstract class PvDatabase : RoomDatabase() {
 
     abstract fun pvDao(): PvDao
 
+    companion object {
+        const val DATABASE_NAME = "pv-database"
+    }
+
 }

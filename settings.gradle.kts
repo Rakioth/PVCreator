@@ -16,4 +16,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "PV Creator"
 include(":app")
+include(":domain")
 include(":data")

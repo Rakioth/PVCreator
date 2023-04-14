@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace  = "com.raks.pvcreator.data"
+    namespace  = "com.raks.pvcreator.domain"
     compileSdk = Apps.COMPILE_SDK
 
     defaultConfig {
@@ -33,9 +33,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain"))
+    implementation(project(":data"))
     implementation(Libs.ANDROIDX_CORE_KTX)
-    implementation(Libs.ANDROIDX_ROOM_KTX)
-    implementation(Libs.ANDROIDX_ROOM_RUNTIME)
-    kapt(Libs.ANDROIDX_ROOM_COMPILER)
 }

@@ -1,4 +1,4 @@
-package com.raks.pvcreator
+package com.raks.pvcreator.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

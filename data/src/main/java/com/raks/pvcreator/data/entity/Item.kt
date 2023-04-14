@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.raks.pvcreator.domain.model.PickerOption
 
 @Entity(
     tableName   = "items",
@@ -23,3 +24,5 @@ data class Item(
     @ColumnInfo(index = true)
     val tid:  Int,
 )
+
+fun Item.toDomain() = PickerOption(id, ref, code)

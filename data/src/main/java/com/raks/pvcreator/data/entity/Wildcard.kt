@@ -1,6 +1,7 @@
 package com.raks.pvcreator.data.entity
 
 import androidx.room.*
+import com.raks.pvcreator.domain.model.PickerOption
 
 @Entity(
     tableName   = "wildcards",
@@ -33,3 +34,5 @@ data class Wildcard(
     @ColumnInfo(index = true)
     val eid:  Int?,
 )
+
+fun Wildcard.toDomain() = PickerOption(id, ref, code)
