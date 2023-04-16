@@ -3,7 +3,7 @@ package com.raks.pvcreator.di
 import android.app.Application
 import androidx.room.Room
 import com.raks.pvcreator.data.PvDatabase
-import com.raks.pvcreator.data.repository.PvRepositoyImpl
+import com.raks.pvcreator.data.repository.PvRepositoryImpl
 import com.raks.pvcreator.domain.repository.PvRepository
 import com.raks.pvcreator.domain.usecase.*
 import dagger.Module
@@ -26,7 +26,7 @@ object AppModule {
     @Provides
     @Singleton
     fun providePvRepository(db: PvDatabase): PvRepository =
-        PvRepositoyImpl(db.pvDao())
+        PvRepositoryImpl(db.pvDao())
 
     @Provides
     @Singleton
@@ -36,6 +36,7 @@ object AppModule {
             GetItems(repository),
             GetVariants(repository),
             GetWildcards(repository),
+            GetBarcode(),
         )
 
 }

@@ -5,4 +5,5 @@ data class PvUseCases(
     val getItems:     GetItems,
     val getVariants:  GetVariants,
     val getWildcards: GetWildcards,
+    val getBarcode:   GetBarcode,
 )
