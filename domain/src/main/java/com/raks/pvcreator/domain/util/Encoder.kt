@@ -45,10 +45,12 @@ object Encoder {
         "9607cf2b59607cf0",
     )
 
-    fun getBarcode(pvCreator: PvCreator): String {
+    fun getBarcode(pvCreator: PvCreator): List<String> {
 
         if (pvCreator.card !in 1..2)
             return pvCreator.item
+                .reversed()
+                .chunked(113)
 
         val barPattern = mapOf(
             '0' to "1110010",
@@ -69,15 +71,18 @@ object Encoder {
             'f' to "1000110",
         )
 
-        var barcode = ""
+        val barcode = StringBuilder()
         encodeData(pvCreator)
             .chunked(16)
             .forEach { c ->
-                c.forEach { barcode += barPattern[it] }
-                barcode += "1"
+                c.forEach { barcode.append(barPattern[it]) }
+                barcode.append("1")
             }
 
         return barcode
+            .toString()
+            .reversed()
+            .chunked(113)
     }
 
     private fun encodeData(pvCreator: PvCreator): String {
@@ -141,13 +146,13 @@ object Encoder {
         for (i in bytesXor.indices)
             bytesXor[i] = bytesXor[i] xor bytesNegate[i]
 
-        var obfuscatedRow = ""
+        val obfuscatedRow = StringBuilder()
         Hex.encodeHex(bytesXor)
             .forEach { c ->
-                obfuscatedRow += obfuscationTable.entries.find { it.value == c }?.key
+                obfuscatedRow.append(obfuscationTable.entries.find { it.value == c }?.key)
             }
 
-        return obfuscatedRow
+        return obfuscatedRow.toString()
     }
 
     private fun checkDigit(row: String): String? {

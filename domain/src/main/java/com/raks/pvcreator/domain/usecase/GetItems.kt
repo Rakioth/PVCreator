@@ -6,6 +6,8 @@ import com.raks.pvcreator.domain.repository.PvRepository
 class GetItems(
     private val repository: PvRepository
 ) {
+
     suspend operator fun invoke(tid: Int): List<PickerOption> =
         repository.getItems(tid)
+
 }

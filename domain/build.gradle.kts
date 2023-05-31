@@ -33,5 +33,5 @@ android {
 
 dependencies {
     implementation(Libs.ANDROIDX_CORE_KTX)
-    implementation("commons-codec:commons-codec:1.15")
+    implementation(Libs.COMMONS_CODEC)
 }

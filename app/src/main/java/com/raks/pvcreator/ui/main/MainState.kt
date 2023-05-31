@@ -7,5 +7,5 @@ data class MainState(
     val items:     List<PickerOption> = emptyList(),
     val variants:  List<PickerOption> = emptyList(),
     val wildcards: List<PickerOption> = emptyList(),
-    val barcode:   String             = "",
+    val barcode:   List<String>       = emptyList(),
 )

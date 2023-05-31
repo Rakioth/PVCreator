@@ -65,6 +65,7 @@ dependencies {
     implementation(Libs.COMPOSE_MATERIAL)
     implementation(Libs.COMPOSE_PREVIEW)
     implementation(Libs.HILT_ANDROID)
+    implementation(Libs.PICKER_SNAPPER)
     kapt(Libs.HILT_ANDROID_COMPILER)
     testImplementation(Libs.JUNIT)
     androidTestImplementation(Libs.ANDROIDX_TEST_ESPRESSO)

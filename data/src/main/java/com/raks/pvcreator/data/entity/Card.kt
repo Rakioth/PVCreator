@@ -11,4 +11,4 @@ data class Card(
     val ref: String,
 )
 
-fun Card.toDomain() = PickerOption(id, ref, "")
+fun Card.toDomain() = PickerOption(id, ref, null)

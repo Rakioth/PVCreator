@@ -9,6 +9,7 @@ object Libs {
     const val ANDROIDX_TEST_ESPRESSO         = "androidx.test.espresso:espresso-core:${Versions.ANDROIDX_TEST_ESPRESSO}"
     const val ANDROIDX_TEST_EXT_JUNIT        = "androidx.test.ext:junit:${Versions.ANDROIDX_TEST_EXT}"
     const val ANDROIDX_VIEWMODEL             = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.ANDROIDX_LIFECYCLE}"
+    const val COMMONS_CODEC                  = "commons-codec:commons-codec:${Versions.COMMONS_CODEC}"
     const val COMPOSE_JUNIT                  = "androidx.compose.ui:ui-test-junit4:${Versions.ANDROIDX_COMPOSE}"
     const val COMPOSE_MANIFEST               = "androidx.compose.ui:ui-test-manifest:${Versions.ANDROIDX_COMPOSE}"
     const val COMPOSE_MATERIAL               = "androidx.compose.material3:material3:${Versions.MATERIAL}"
@@ -17,4 +18,5 @@ object Libs {
     const val HILT_ANDROID                   = "com.google.dagger:hilt-android:${Versions.HILT}"
     const val HILT_ANDROID_COMPILER          = "com.google.dagger:hilt-android-compiler:${Versions.HILT}"
     const val JUNIT                          = "junit:junit:${Versions.JUNIT}"
+    const val PICKER_SNAPPER                 = "dev.chrisbanes.snapper:snapper:${Versions.PICKER_SNAPPER}"
 }

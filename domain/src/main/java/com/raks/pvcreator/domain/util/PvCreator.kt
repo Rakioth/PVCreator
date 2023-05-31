@@ -26,15 +26,17 @@ data class PvCreator(
     private fun toBits(name: String?): String? {
         if (name.isNullOrBlank()) return null
 
-        var bits = ""
+        val bits = StringBuilder()
         name.codePoints()
             .forEach {
-                bits += (it + 1)
-                    .toString(2)
-                    .substring(2)
+                bits.append(
+                    (it + 1)
+                        .toString(2)
+                        .substring(2)
+                )
             }
 
-        return bits
+        return bits.toString()
     }
 
 }

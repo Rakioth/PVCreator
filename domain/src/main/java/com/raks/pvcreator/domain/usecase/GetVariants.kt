@@ -6,8 +6,10 @@ import com.raks.pvcreator.domain.repository.PvRepository
 class GetVariants(
     private val repository: PvRepository
 ) {
-    suspend operator fun invoke(id: Int): List<PickerOption> {
-        val variants = repository.getVariants(id)
-        return listOf(PickerOption.none()) + variants
-    }
+
+    suspend operator fun invoke(id: Int): List<PickerOption> =
+        repository.getVariants(id)
+                  .toMutableList()
+                  .apply { add(0, PickerOption.none()) }
+
 }
