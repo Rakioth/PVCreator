@@ -7,6 +7,7 @@
             android:allowBackup="true"
             android:dataExtractionRules="@xml/data_extraction_rules"
             android:fullBackupContent="@xml/backup_rules"
+            android:roundIcon="@mipmap/ic_launcher_round"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
             android:supportsRtl="true"
@@ -16,13 +17,58 @@
         <activity
                 android:name=".ui.MainActivity"
                 android:exported="true"
-                android:label="@string/app_name"
                 android:theme="@style/Theme.PVCreator">
+
+            <intent-filter>
+                <category android:name="android.intent.category.MAIN"/>
+            </intent-filter>
+
+        </activity>
+
+        <activity-alias
+                android:name=".ui.DefaultIcon"
+                android:roundIcon="@mipmap/ic_launcher_round"
+                android:icon="@mipmap/ic_launcher"
+                android:enabled="true"
+                android:exported="true"
+                android:targetActivity=".ui.MainActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
+
+        </activity-alias>
+
+        <activity-alias
+                android:name=".ui.LightIcon"
+                android:roundIcon="@mipmap/ic_launcher_light_round"
+                android:icon="@mipmap/ic_launcher_light"
+                android:enabled="false"
+                android:exported="true"
+                android:targetActivity=".ui.MainActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
+        </activity-alias>
+
+        <activity-alias
+                android:name=".ui.DarkIcon"
+                android:roundIcon="@mipmap/ic_launcher_dark_round"
+                android:icon="@mipmap/ic_launcher_dark"
+                android:enabled="false"
+                android:exported="true"
+                android:targetActivity=".ui.MainActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
+        </activity-alias>
 
     </application>
 

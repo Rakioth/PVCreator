@@ -46,7 +46,6 @@ object Encoder {
     )
 
     fun getBarcode(pvCreator: PvCreator): List<String> {
-
         if (pvCreator.card !in 1..2)
             return pvCreator.item
                 .reversed()

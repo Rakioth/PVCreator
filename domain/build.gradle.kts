@@ -34,4 +34,5 @@ android {
 dependencies {
     implementation(Libs.ANDROIDX_CORE_KTX)
     implementation(Libs.COMMONS_CODEC)
+    implementation(Libs.COMPOSE_RUNTIME)
 }

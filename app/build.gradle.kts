@@ -46,7 +46,7 @@ android {
         kotlinCompilerExtensionVersion = Versions.ANDROIDX_COMPOSE
     }
 
-    packagingOptions {
+    packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
@@ -62,9 +62,13 @@ dependencies {
     implementation(Libs.ANDROIDX_LIFECYCLE_RUNTIME_KTX)
     implementation(Libs.ANDROIDX_ROOM_KTX)
     implementation(Libs.ANDROIDX_VIEWMODEL)
+    implementation(Libs.COMPOSE_ICONS)
     implementation(Libs.COMPOSE_MATERIAL)
     implementation(Libs.COMPOSE_PREVIEW)
+    implementation(Libs.DATASTORE_PREFERENCES)
     implementation(Libs.HILT_ANDROID)
+    implementation(Libs.NAVIGATION_COMPOSE)
+    implementation(Libs.NAVIGATION_HILT)
     implementation(Libs.PICKER_SNAPPER)
     kapt(Libs.HILT_ANDROID_COMPILER)
     testImplementation(Libs.JUNIT)
