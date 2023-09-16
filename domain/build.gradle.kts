@@ -1,7 +1,6 @@
 plugins {
     id(Plugins.ANDROID_LIBRARY)
     id(Plugins.KOTLIN_ANDROID)
-    id(Plugins.KOTLIN_KAPT)
 }
 
 android {
@@ -32,7 +31,6 @@ android {
 }
 
 dependencies {
-    implementation(Libs.ANDROIDX_CORE_KTX)
     implementation(Libs.COMMONS_CODEC)
-    implementation(Libs.COMPOSE_RUNTIME)
+    implementation(Libs.KOTLIN_COROUTINES)
 }

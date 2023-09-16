@@ -54,18 +54,17 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain"))
     implementation(project(":data"))
+    implementation(project(":domain"))
     implementation(Libs.ANDROIDX_ACTIVITY)
     implementation(Libs.ANDROIDX_COMPOSE)
     implementation(Libs.ANDROIDX_CORE_KTX)
     implementation(Libs.ANDROIDX_LIFECYCLE_RUNTIME_KTX)
     implementation(Libs.ANDROIDX_ROOM_KTX)
     implementation(Libs.ANDROIDX_VIEWMODEL)
-    implementation(Libs.COMPOSE_ICONS)
+    implementation(Libs.COMPOSE_LOTTIE)
     implementation(Libs.COMPOSE_MATERIAL)
     implementation(Libs.COMPOSE_PREVIEW)
-    implementation(Libs.DATASTORE_PREFERENCES)
     implementation(Libs.HILT_ANDROID)
     implementation(Libs.NAVIGATION_COMPOSE)
     implementation(Libs.NAVIGATION_HILT)

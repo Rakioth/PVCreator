@@ -4,13 +4,11 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.raks.pvcreator.domain.model.ThemeConfig
+import com.raks.pvcreator.domain.model.ThemeIcon
 import com.raks.pvcreator.domain.usecase.PvUseCases
 import com.raks.pvcreator.domain.usecase.ThemeUseCases
 import com.raks.pvcreator.domain.util.PvCreator
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,9 +20,6 @@ class PvViewModel @Inject constructor(
 
     private val _state = mutableStateOf(PvState())
     val state: State<PvState> = _state
-
-    private val _themeState = mutableStateOf(ThemeState())
-    val themeState: State<ThemeState> = _themeState
 
     private val _pvCard = mutableStateOf(
         PvCreator(
@@ -38,9 +33,8 @@ class PvViewModel @Inject constructor(
     val pvCard: State<PvCreator> = _pvCard
 
 
-    val getConfig: State<ThemeConfig> = themeUseCases.getThemeConfig()
+    val themeConfig = themeUseCases.getThemeConfig()
 
-    suspend fun saveTheme(value: Boolean) = themeUseCases.changeTheme(value)
 
     init {
         viewModelScope.launch {
@@ -108,9 +102,9 @@ class PvViewModel @Inject constructor(
                 )
             }
 
-            is PvEvent.InputTheme     -> {
+            is PvEvent.InputTheme    -> {
                 viewModelScope.launch {
-                    themeUseCases.changeTheme(event.value)
+                    themeUseCases.changeTheme(if (event.value) ThemeIcon.LIGHT else ThemeIcon.DARK)
                 }
             }
         }

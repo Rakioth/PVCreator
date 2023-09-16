@@ -1,11 +1,11 @@
 package com.raks.pvcreator.domain.util
 
 data class PvCreator(
-    var card:     Int,
-    var item:     String,
-    var variant:  String?,
-    var wildcard: String?,
-    var name:     String?,
+    val card:     Int,
+    val item:     String,
+    val variant:  String?,
+    val wildcard: String?,
+    val name:     String?,
 ) {
 
     companion object {
@@ -16,12 +16,20 @@ data class PvCreator(
         private const val NAME_END_PAYLOAD   = "00000"
     }
 
-    init {
-        item     = item.let          { "$ITEM_PAYLOAD$it" }
-        variant  = variant?.let      { "$VARIANT_PAYLOAD$it" } ?: ""
-        wildcard = wildcard?.let     { "$WILDCARD_PAYLOAD$it" } ?: ""
-        name     = toBits(name)?.let { "$NAME_START_PAYLOAD$it$NAME_END_PAYLOAD" } ?: ""
-    }
+    val cardPayload:     Boolean
+        get() = card !in 1..2
+
+    val itemPayload:     String
+        get() = item.let          { "$ITEM_PAYLOAD$it" }
+
+    val variantPayload:  String
+        get() = variant?.let      { "$VARIANT_PAYLOAD$it" } ?: ""
+
+    val wildcardPayload: String
+        get() = wildcard?.let     { "$WILDCARD_PAYLOAD$it" } ?: ""
+
+    val namePayload:     String
+        get() = toBits(name)?.let { "$NAME_START_PAYLOAD$it$NAME_END_PAYLOAD" } ?: ""
 
     private fun toBits(name: String?): String? {
         if (name.isNullOrBlank()) return null

@@ -13,33 +13,34 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.findViewTreeViewModelStoreOwner
 import com.raks.pvcreator.R
-import com.raks.pvcreator.domain.repository.ThemeRepository
-import com.raks.pvcreator.domain.usecase.ThemeUseCases
+import com.raks.pvcreator.domain.model.ThemeConfig
 import com.raks.pvcreator.presentation.screen.pv.components.PvBarcode
 import com.raks.pvcreator.presentation.screen.pv.components.PvCard
 import com.raks.pvcreator.presentation.screen.pv.components.PvTextField
-import com.raks.pvcreator.presentation.components.PlasmaBackground
 import com.raks.pvcreator.presentation.components.ThemeSwitcher
-import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PvScreen(
-    darkTheme: Boolean,
+    themeConfig: ThemeConfig,
     viewModel: PvViewModel = hiltViewModel(LocalView.current.findViewTreeViewModelStoreOwner()!!),
 ) {
-    println("view 1 " + viewModel.hashCode())
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
-    val savedTheme = viewModel.getConfig.value.isThemeDark
-    val savedTemp = viewModel.getConfig.value.isThemeActive
 
     var text by remember { mutableStateOf(TextFieldValue("Text")) }
 
+    val darkTheme   = themeConfig.themeIcon.let {
+        when (it) {
+            com.raks.pvcreator.domain.model.ThemeIcon.DEFAULT -> isSystemInDarkTheme()
+            com.raks.pvcreator.domain.model.ThemeIcon.LIGHT   -> false
+            com.raks.pvcreator.domain.model.ThemeIcon.DARK    -> true
+        }
+    }
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
@@ -47,15 +48,15 @@ fun PvScreen(
             CenterAlignedTopAppBar(
                 title = {
                     ThemeSwitcher(
-                        darkTheme = savedTheme,
+                        darkTheme = darkTheme,
                         onClick = {
                             scope.launch {
-                                if (!savedTemp)
-                                    snackbarHostState.showSnackbar("changing")
-
-//                                viewModel.saveTheme(!savedTheme.value)
+                                if (!themeConfig.isThemeActive) {
+                                    snackbarHostState.showSnackbar("🎨  Activating Theme Switch...")
+                                    delay(500)
+                                }
+                                viewModel.onEvent(PvEvent.InputTheme(darkTheme))
                             }
-                            viewModel.onEvent(PvEvent.InputTheme(!savedTheme))
                         }
                     )
                 },
@@ -64,25 +65,25 @@ fun PvScreen(
                 ),
                 actions = {
                     Text(
-                        text = savedTemp.toString()
+                        text = themeConfig.isThemeActive.toString()
                     )
                     Text(
-                        text = savedTheme.toString()
+                        text = themeConfig.themeIcon.name
                     )
                 }
             )
         },
     ) {
 
-        PlasmaBackground(
-            colors = arrayOf(
-                MaterialTheme.colorScheme.surface,
-                MaterialTheme.colorScheme.onSurface,
-                MaterialTheme.colorScheme.surfaceVariant,
-                MaterialTheme.colorScheme.onSurfaceVariant,
-                MaterialTheme.colorScheme.surfaceTint,
-            ),
-        )
+//        PlasmaBackground(
+//            colors = arrayOf(
+//                MaterialTheme.colorScheme.surface,
+//                MaterialTheme.colorScheme.onSurface,
+//                MaterialTheme.colorScheme.surfaceVariant,
+//                MaterialTheme.colorScheme.onSurfaceVariant,
+//                MaterialTheme.colorScheme.surfaceTint,
+//            ),
+//        )
         PvCard(
             darkTheme = darkTheme,
             painter = painterResource(R.drawable.ic_pv_card_light),

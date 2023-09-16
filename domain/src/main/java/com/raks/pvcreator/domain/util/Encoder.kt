@@ -46,7 +46,7 @@ object Encoder {
     )
 
     fun getBarcode(pvCreator: PvCreator): List<String> {
-        if (pvCreator.card !in 1..2)
+        if (pvCreator.cardPayload)
             return pvCreator.item
                 .reversed()
                 .chunked(113)
@@ -85,12 +85,16 @@ object Encoder {
     }
 
     private fun encodeData(pvCreator: PvCreator): String {
-        var encodedData = START_PAYLOAD +
-                          pvCreator.item +
-                          pvCreator.name +
-                          pvCreator.wildcard +
-                          pvCreator.variant +
-                          END_PAYLOAD
+        val sb = StringBuilder()
+
+        sb.append(START_PAYLOAD)
+          .append(pvCreator.itemPayload)
+          .append(pvCreator.namePayload)
+          .append(pvCreator.wildcardPayload)
+          .append(pvCreator.variantPayload)
+          .append(END_PAYLOAD)
+
+        var encodedData = sb.toString()
 
         for (i in 60..240 step 60)
             if (encodedData.length < i) {

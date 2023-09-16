@@ -33,8 +33,8 @@ android {
 
 dependencies {
     implementation(project(":domain"))
-    implementation(Libs.ANDROIDX_CORE_KTX)
     implementation(Libs.ANDROIDX_ROOM_KTX)
     implementation(Libs.ANDROIDX_ROOM_RUNTIME)
+    implementation(Libs.DATASTORE_PREFERENCES)
     kapt(Libs.ANDROIDX_ROOM_COMPILER)
 }

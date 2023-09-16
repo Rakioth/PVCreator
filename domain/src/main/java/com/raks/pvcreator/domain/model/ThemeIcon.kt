@@ -1,9 +1,9 @@
-package com.raks.pvcreator.repository
+package com.raks.pvcreator.domain.model
 
 import android.content.ComponentName
 import android.content.Context
 
-enum class Icon(
+enum class ThemeIcon(
     private val key: String
 ) {
 

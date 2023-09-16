@@ -6,27 +6,32 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.collectAsState
+import com.raks.pvcreator.domain.model.ThemeIcon
+import com.raks.pvcreator.domain.model.ThemeConfig
 import com.raks.pvcreator.presentation.navigation.NavGraph
 import com.raks.pvcreator.presentation.screen.pv.PvViewModel
 import com.raks.pvcreator.ui.theme.PVCreatorTheme
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val pvViewModel by viewModels<PvViewModel>()
+    private val viewModel by viewModels<PvViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        println("view 2 " + pvViewModel.hashCode())
-
         setContent {
-//            val darkTheme = pvViewModel.themeState.value.isThemeDark
-            val darkTheme = pvViewModel.getConfig
+            val themeConfig = viewModel.themeConfig.collectAsState(initial = ThemeConfig.default()).value
+            val darkTheme   = themeConfig.themeIcon.let {
+                when (it) {
+                    ThemeIcon.DEFAULT -> isSystemInDarkTheme()
+                    ThemeIcon.LIGHT   -> false
+                    ThemeIcon.DARK    -> true
+                }
+            }
 
-            PVCreatorTheme(darkTheme = darkTheme.value.isThemeDark) {
-                NavGraph(darkTheme = darkTheme.value.isThemeDark)
+            PVCreatorTheme(darkTheme = darkTheme) {
+                NavGraph(themeConfig = themeConfig)
             }
         }
     }

@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.raks.pvcreator.domain.model.ThemeConfig
 import com.raks.pvcreator.domain.repository.ThemeRepository
 import com.raks.pvcreator.domain.usecase.ThemeUseCases
 import com.raks.pvcreator.presentation.screen.pv.PvScreen
@@ -11,7 +12,7 @@ import com.raks.pvcreator.presentation.screen.splash.SplashScreen
 
 @Composable
 fun NavGraph(
-    darkTheme: Boolean
+    themeConfig: ThemeConfig
 ) {
     val navController = rememberNavController()
 
@@ -23,7 +24,7 @@ fun NavGraph(
             SplashScreen()
         }
         composable(route = Screen.PvScreen.route) {
-            PvScreen(darkTheme = darkTheme)
+            PvScreen(themeConfig = themeConfig)
         }
     }
 }
