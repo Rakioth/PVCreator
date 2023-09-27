@@ -3,14 +3,11 @@ package com.raks.pvcreator.di
 import android.app.Application
 import androidx.room.Room
 import com.raks.pvcreator.data.PvDatabase
-import com.raks.pvcreator.data.repository.PvRepositoryImpl
-import com.raks.pvcreator.data.repository.ThemeRepositoryImpl
-import com.raks.pvcreator.domain.repository.PvRepository
-import com.raks.pvcreator.domain.repository.ThemeRepository
+import com.raks.pvcreator.data.repository.*
+import com.raks.pvcreator.domain.repository.*
 import com.raks.pvcreator.domain.usecase.*
 import com.raks.pvcreator.domain.usecase.pv.*
-import com.raks.pvcreator.domain.usecase.theme.ChangeTheme
-import com.raks.pvcreator.domain.usecase.theme.GetThemeConfig
+import com.raks.pvcreator.domain.usecase.theme.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -54,7 +51,7 @@ object AppModule {
     fun provideThemeUseCases(repository: ThemeRepository): ThemeUseCases =
         ThemeUseCases(
             GetThemeConfig(repository),
-            ChangeTheme(repository),
+            SetTheme(repository),
         )
 
 }

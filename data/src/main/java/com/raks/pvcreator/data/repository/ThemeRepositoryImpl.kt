@@ -41,7 +41,7 @@ class ThemeRepositoryImpl(
                 )
             }
 
-    override suspend fun changeTheme(themeIcon: ThemeIcon) {
+    override suspend fun setTheme(themeIcon: ThemeIcon) {
         context.dataStore.edit {
             val isThemeActive = it[THEME_ACTIVE_KEY] ?: false
 

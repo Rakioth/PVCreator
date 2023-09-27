@@ -17,8 +17,8 @@ import com.raks.pvcreator.util.initSize
 
 @Composable
 fun PvCard(
-    darkTheme: Boolean,
-    painter: Painter,
+    darkTheme:     Boolean,
+    painter:       Painter,
     paddingValues: PaddingValues,
     textfields: @Composable ColumnScope.() -> Unit,
     barcode:    @Composable RowScope.()    -> Unit,
@@ -31,9 +31,9 @@ fun PvCard(
     Box(
         modifier = Modifier
             .padding(
-                top = paddingValues.calculateTopPadding() + 15.dp,
-                start = 15.dp,
-                end = 15.dp,
+                top    = paddingValues.calculateTopPadding() + 15.dp,
+                start  = 15.dp,
+                end    = 15.dp,
                 bottom = 15.dp,
             )
             .wrapContentSize(Alignment.TopCenter)
@@ -47,7 +47,7 @@ fun PvCard(
             .onSizeChanged { size = it },
     ) {
         Image(
-            painter            = if (darkTheme) painterResource(R.drawable.ic_pv_card_dark) else painter,
+            painter            = if (darkTheme) painterResource(R.drawable.pv_card_dark) else painter,
             contentDescription = stringResource(R.string.label_pvcard),
             modifier           = Modifier.fillMaxSize(),
         )

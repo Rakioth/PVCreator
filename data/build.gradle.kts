@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace  = "com.raks.pvcreator.data"
+    namespace  = "${Apps.APPLICATION_ID}.data"
     compileSdk = Apps.COMPILE_SDK
 
     defaultConfig {

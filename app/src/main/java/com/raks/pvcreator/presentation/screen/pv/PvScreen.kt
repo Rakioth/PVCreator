@@ -1,79 +1,28 @@
 package com.raks.pvcreator.presentation.screen.pv
 
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.findViewTreeViewModelStoreOwner
+import com.airbnb.lottie.compose.*
 import com.raks.pvcreator.R
-import com.raks.pvcreator.domain.model.ThemeConfig
 import com.raks.pvcreator.presentation.screen.pv.components.PvBarcode
 import com.raks.pvcreator.presentation.screen.pv.components.PvCard
 import com.raks.pvcreator.presentation.screen.pv.components.PvTextField
-import com.raks.pvcreator.presentation.components.ThemeSwitcher
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.raks.pvcreator.presentation.screen.splash.components.SplashTopBar
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PvScreen(
-    themeConfig: ThemeConfig,
-    viewModel: PvViewModel = hiltViewModel(LocalView.current.findViewTreeViewModelStoreOwner()!!),
+    paddingValues: PaddingValues,
+    isDarkTheme: Boolean,
+    viewModel: PvViewModel = hiltViewModel(),
 ) {
-
-    val snackbarHostState = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
-
+    val state = viewModel.state.value
 
     var text by remember { mutableStateOf(TextFieldValue("Text")) }
-
-    val darkTheme   = themeConfig.themeIcon.let {
-        when (it) {
-            com.raks.pvcreator.domain.model.ThemeIcon.DEFAULT -> isSystemInDarkTheme()
-            com.raks.pvcreator.domain.model.ThemeIcon.LIGHT   -> false
-            com.raks.pvcreator.domain.model.ThemeIcon.DARK    -> true
-        }
-    }
-
-    Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) },
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    ThemeSwitcher(
-                        darkTheme = darkTheme,
-                        onClick = {
-                            scope.launch {
-                                if (!themeConfig.isThemeActive) {
-                                    snackbarHostState.showSnackbar("🎨  Activating Theme Switch...")
-                                    delay(500)
-                                }
-                                viewModel.onEvent(PvEvent.InputTheme(darkTheme))
-                            }
-                        }
-                    )
-                },
-                colors = TopAppBarDefaults.smallTopAppBarColors(
-                    containerColor = Color.Transparent
-                ),
-                actions = {
-                    Text(
-                        text = themeConfig.isThemeActive.toString()
-                    )
-                    Text(
-                        text = themeConfig.themeIcon.name
-                    )
-                }
-            )
-        },
-    ) {
 
 //        PlasmaBackground(
 //            colors = arrayOf(
@@ -85,9 +34,9 @@ fun PvScreen(
 //            ),
 //        )
         PvCard(
-            darkTheme = darkTheme,
-            painter = painterResource(R.drawable.ic_pv_card_light),
-            paddingValues = it,
+            darkTheme = isDarkTheme,
+            painter = painterResource(R.drawable.pv_card_light),
+            paddingValues = paddingValues,
             textfields = {
                 PvTextField(
                     modifier = Modifier
@@ -142,5 +91,4 @@ fun PvScreen(
                 )
             }
         )
-    }
 }

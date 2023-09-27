@@ -15,7 +15,6 @@ import javax.inject.Inject
 @HiltViewModel
 class PvViewModel @Inject constructor(
     private val pvUseCases: PvUseCases,
-    private val themeUseCases: ThemeUseCases,
 ) : ViewModel() {
 
     private val _state = mutableStateOf(PvState())
@@ -31,10 +30,6 @@ class PvViewModel @Inject constructor(
         )
     )
     val pvCard: State<PvCreator> = _pvCard
-
-
-    val themeConfig = themeUseCases.getThemeConfig()
-
 
     init {
         viewModelScope.launch {
@@ -100,12 +95,6 @@ class PvViewModel @Inject constructor(
                 _pvCard.value = pvCard.value.copy(
                     name = event.name
                 )
-            }
-
-            is PvEvent.InputTheme    -> {
-                viewModelScope.launch {
-                    themeUseCases.changeTheme(if (event.value) ThemeIcon.LIGHT else ThemeIcon.DARK)
-                }
             }
         }
     }

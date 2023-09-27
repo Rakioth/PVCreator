@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -69,6 +70,7 @@ fun PvTextField(
                     .fillMaxSize()
                     .wrapContentHeight(Alignment.Bottom),
                 singleLine    = true,
+                cursorBrush   = SolidColor(MaterialTheme.colorScheme.primary),
                 textStyle     = TextStyle(
                     fontFamily = FontFamily.Default,
                     fontWeight = FontWeight.W400,

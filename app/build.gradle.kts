@@ -1,12 +1,12 @@
 plugins {
     id(Plugins.ANDROID_APPLICATION)
+    id(Plugins.HILT_GRADLE)
     id(Plugins.KOTLIN_ANDROID)
     id(Plugins.KOTLIN_KAPT)
-    id(Plugins.HILT_GRADLE)
 }
 
 android {
-    namespace  = "com.raks.pvcreator"
+    namespace  = Apps.APPLICATION_ID
     compileSdk = Apps.COMPILE_SDK
 
     defaultConfig {

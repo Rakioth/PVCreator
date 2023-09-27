@@ -8,6 +8,6 @@ interface ThemeRepository {
 
     val themeConfig: Flow<ThemeConfig>
 
-    suspend fun changeTheme(themeIcon: ThemeIcon)
+    suspend fun setTheme(themeIcon: ThemeIcon)
 
 }
