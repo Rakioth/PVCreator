@@ -1,21 +1,15 @@
 package com.raks.pvcreator.ui.theme
 
 import android.app.Activity
-import android.content.res.Configuration
 import android.os.Build
-import android.view.WindowManager
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import com.raks.pvcreator.util.LocalTheme
+import com.raks.pvcreator.presentation.components.LocalTheme
 
 private val DarkColorScheme = darkColorScheme(
     inversePrimary     = InverseDark,
