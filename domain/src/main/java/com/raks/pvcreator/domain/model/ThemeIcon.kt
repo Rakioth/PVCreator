@@ -15,7 +15,7 @@ enum class ThemeIcon(
 
     fun getComponentName(context: Context): ComponentName {
         if (componentName == null)
-            componentName = ComponentName(context.packageName, "com.raks.pvcreator.ui.$key")
+            componentName = ComponentName(context.packageName, "com.raks.pvcreator.$key")
         return componentName!!
     }
 

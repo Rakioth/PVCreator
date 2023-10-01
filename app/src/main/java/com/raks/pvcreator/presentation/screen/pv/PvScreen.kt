@@ -13,11 +13,12 @@ import com.raks.pvcreator.presentation.screen.pv.components.PvBarcode
 import com.raks.pvcreator.presentation.screen.pv.components.PvCard
 import com.raks.pvcreator.presentation.screen.pv.components.PvTextField
 import com.raks.pvcreator.presentation.screen.splash.components.SplashTopBar
+import com.raks.pvcreator.util.LocalTheme
 
 @Composable
 fun PvScreen(
     paddingValues: PaddingValues,
-    isDarkTheme: Boolean,
+    isDarkTheme: Boolean = LocalTheme.current,
     viewModel: PvViewModel = hiltViewModel(),
 ) {
     val state = viewModel.state.value

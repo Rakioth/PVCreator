@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.raks.pvcreator.util.LocalTheme
 
 private val DarkColorScheme = darkColorScheme(
     inversePrimary     = InverseDark,
@@ -26,11 +27,6 @@ private val DarkColorScheme = darkColorScheme(
     tertiaryContainer  = PickerBackgroundDark,
     outline            = SeparatorDark,
     outlineVariant     = SystemBlue,
-    surface            = PlasmaBlueDark,
-    onSurface          = PlasmaGreenDark,
-    surfaceVariant     = PlasmaYellowDark,
-    onSurfaceVariant   = PlasmaRedDark,
-    surfaceTint        = PlasmaPurpleDark,
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -43,16 +39,11 @@ private val LightColorScheme = lightColorScheme(
     tertiaryContainer  = PickerBackgroundLight,
     outline            = SeparatorLight,
     outlineVariant     = SystemBlue,
-    surface            = PlasmaBlueLight,
-    onSurface          = PlasmaGreenLight,
-    surfaceVariant     = PlasmaYellowLight,
-    onSurfaceVariant   = PlasmaRedLight,
-    surfaceTint        = PlasmaPurpleLight,
 )
 
 @Composable
 fun PVCreatorTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = LocalTheme.current,
     content: @Composable () -> Unit,
 ) {
     val colorScheme = if (darkTheme)

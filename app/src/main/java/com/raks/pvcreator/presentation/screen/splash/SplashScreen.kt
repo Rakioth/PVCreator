@@ -66,15 +66,6 @@ fun SplashScreen(
             contentScale = ContentScale.FillBounds,
             modifier    = Modifier.fillMaxSize()
         )
-//        PlasmaBackground(
-//            colors = arrayOf(
-//                MaterialTheme.colorScheme.surface,
-//                MaterialTheme.colorScheme.onSurface,
-//                MaterialTheme.colorScheme.surfaceVariant,
-//                MaterialTheme.colorScheme.onSurfaceVariant,
-//                MaterialTheme.colorScheme.surfaceTint,
-//            ),
-//        )
         Image(
             painter = painterResource(R.drawable.pv_splash_light),
             contentDescription = stringResource(R.string.label_pvcard),

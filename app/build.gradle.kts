@@ -2,7 +2,7 @@ plugins {
     id(Plugins.ANDROID_APPLICATION)
     id(Plugins.HILT_GRADLE)
     id(Plugins.KOTLIN_ANDROID)
-    id(Plugins.KOTLIN_KAPT)
+    id(Plugins.KSP)
 }
 
 android {
@@ -69,7 +69,7 @@ dependencies {
     implementation(Libs.NAVIGATION_COMPOSE)
     implementation(Libs.NAVIGATION_HILT)
     implementation(Libs.PICKER_SNAPPER)
-    kapt(Libs.HILT_ANDROID_COMPILER)
+    ksp(Libs.HILT_ANDROID_COMPILER)
     testImplementation(Libs.JUNIT)
     androidTestImplementation(Libs.ANDROIDX_TEST_ESPRESSO)
     androidTestImplementation(Libs.ANDROIDX_TEST_EXT_JUNIT)

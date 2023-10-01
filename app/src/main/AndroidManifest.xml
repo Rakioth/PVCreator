@@ -25,7 +25,7 @@
         </activity>
 
         <activity-alias
-                android:name=".ui.DefaultIcon"
+                android:name=".DefaultIcon"
                 android:roundIcon="@mipmap/pv_icon_round"
                 android:icon="@mipmap/pv_icon"
                 android:enabled="true"
@@ -40,7 +40,7 @@
         </activity-alias>
 
         <activity-alias
-                android:name=".ui.LightIcon"
+                android:name=".LightIcon"
                 android:roundIcon="@mipmap/pv_icon_light_round"
                 android:icon="@mipmap/pv_icon_light"
                 android:enabled="false"
@@ -55,7 +55,7 @@
         </activity-alias>
 
         <activity-alias
-                android:name=".ui.DarkIcon"
+                android:name=".DarkIcon"
                 android:roundIcon="@mipmap/pv_icon_dark_round"
                 android:icon="@mipmap/pv_icon_dark"
                 android:enabled="false"

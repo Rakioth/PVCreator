@@ -27,7 +27,7 @@ class MainViewModel @Inject constructor(
             themeUseCases.getThemeConfig().take(1).collect {
 
                 val darktheme = when(it.themeIcon) {
-                    ThemeIcon.DEFAULT -> false
+                    ThemeIcon.DEFAULT -> true
                     ThemeIcon.LIGHT -> false
                     ThemeIcon.DARK -> true
                 }

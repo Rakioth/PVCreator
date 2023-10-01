@@ -1,7 +1,7 @@
 plugins {
     id(Plugins.ANDROID_LIBRARY)
     id(Plugins.KOTLIN_ANDROID)
-    id(Plugins.KOTLIN_KAPT)
+    id(Plugins.KSP)
 }
 
 android {
@@ -36,5 +36,5 @@ dependencies {
     implementation(Libs.ANDROIDX_ROOM_KTX)
     implementation(Libs.ANDROIDX_ROOM_RUNTIME)
     implementation(Libs.DATASTORE_PREFERENCES)
-    kapt(Libs.ANDROIDX_ROOM_COMPILER)
+    ksp(Libs.ANDROIDX_ROOM_COMPILER)
 }

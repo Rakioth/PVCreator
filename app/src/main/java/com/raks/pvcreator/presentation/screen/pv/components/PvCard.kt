@@ -13,11 +13,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.raks.pvcreator.R
+import com.raks.pvcreator.util.LocalTheme
+import com.raks.pvcreator.util.PVCardSize
 import com.raks.pvcreator.util.initSize
 
 @Composable
 fun PvCard(
-    darkTheme:     Boolean,
+    darkTheme:     Boolean = LocalTheme.current,
     painter:       Painter,
     paddingValues: PaddingValues,
     textfields: @Composable ColumnScope.() -> Unit,
@@ -26,10 +28,9 @@ fun PvCard(
     val ratio = painter.intrinsicSize.width / painter.intrinsicSize.height
     var size by remember { mutableStateOf(IntSize.Zero) }
 
-    initSize(LocalContext.current, size)
-
     Box(
         modifier = Modifier
+//            .onSizeChanged { size = it }
             .padding(
                 top    = paddingValues.calculateTopPadding() + 15.dp,
                 start  = 15.dp,
@@ -56,7 +57,9 @@ fun PvCard(
             Column(modifier = Modifier.weight(0.683f))
             {
                 Spacer(modifier = Modifier.weight(0.34f))
-                textfields()
+                CompositionLocalProvider(PVCardSize provides size) {
+                    textfields()
+                }
                 Spacer(modifier = Modifier.weight(0.06f))
             }
             Column(modifier = Modifier.weight(0.19f))

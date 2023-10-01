@@ -19,6 +19,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.applyCanvas
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -28,10 +29,13 @@ import com.raks.pvcreator.R
 import com.raks.pvcreator.presentation.screen.pv.PvScreen
 import com.raks.pvcreator.presentation.screen.splash.SplashEvent
 import com.raks.pvcreator.ui.MainViewModel
+import com.raks.pvcreator.util.LocalTheme
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlin.math.roundToInt
+
+private lateinit var box: String
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,22 +43,37 @@ fun SplashTopBar(
     viewModel: MainViewModel = hiltViewModel(LocalView.current.findViewTreeViewModelStoreOwner()!!),
 ) {
     val state = viewModel.state.value!!
+    
+    val isDarkTheme = LocalTheme.current
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scope             = rememberCoroutineScope()
 
-    val theone = if (state.isDarkTheme) R.raw.pv_background_dark else R.raw.pv_background_light
+
+    println("DIABLO" + isDarkTheme)
+
+    if (!::box.isInitialized) {
+        box = if (isDarkTheme) R.raw.pv_switch_dark.toString() else R.raw.pv_switch_light.toString()
+    }
+
+    val theone = if (isDarkTheme) R.raw.pv_background_dark else R.raw.pv_background_light
+
+
+    var onclick by remember { mutableStateOf(false) }
 
     val view = LocalView.current
     var capturingViewBounds by remember { mutableStateOf<Rect?>(null) }
     var background          by remember { mutableStateOf<Bitmap?>(null) }
-    val composition         by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.pv_switch_dark))
+    val composition         by rememberLottieComposition(LottieCompositionSpec.RawRes(box.toInt()))
     val progress            by animateLottieCompositionAsState(
         composition = composition,
         isPlaying   = true,
-        speed       = if (!state.isDarkTheme) 1.7f else -2.2f,
+        speed       = if (onclick) 1.7f else -2.2f,
+//        speed       = if (flag) -2.2f else if (isDarkTheme) 1.7f else -2.2f,
+//        speed       = if (isDarkTheme) 1.7f else -2.2f,
         clipSpec    = LottieClipSpec.Frame(max = 50),
     )
+
 
     val compositionBack         by rememberLottieComposition(LottieCompositionSpec.RawRes(theone))
     val progressBack            by animateLottieCompositionAsState(
@@ -62,14 +81,13 @@ fun SplashTopBar(
         iterations = LottieConstants.IterateForever,
     )
 
-    println("OI " + state.isDarkTheme)
 
     LaunchedEffect(state.startThemeTransition) {
         val tasks = arrayListOf<Deferred<Unit>>()
         tasks.add(async {
             animate(
                 initialValue  = 0f,
-                targetValue   = if (!state.isDarkTheme) 2500f else 0f,
+                targetValue   = if (!isDarkTheme) 2500f else 0f,
                 animationSpec = tween(1500),
                 block         = { i, _ -> viewModel.onEvent(SplashEvent.UpdateLightToDarkRadius(i)) })
 
@@ -77,7 +95,7 @@ fun SplashTopBar(
         tasks.add(async {
             animate(
                 initialValue  = 2500f,
-                targetValue   = if (state.isDarkTheme) 0f else 2500f,
+                targetValue   = if (isDarkTheme) 0f else 2500f,
                 animationSpec = tween(1000),
                 block         = { i, _ -> viewModel.onEvent(SplashEvent.UpdateDarkToLightRadius(i)) })
         })
@@ -91,7 +109,7 @@ fun SplashTopBar(
                 title  = {
                     LottieAnimation(
                         composition = composition,
-                        progress    = progress,
+                        progress    = { progress },
                         modifier    = Modifier
                             .width(50.dp)
                             .height(50.dp)
@@ -100,6 +118,7 @@ fun SplashTopBar(
                                 capturingViewBounds?.let {
                                     background = takeScreenShot(it, view)
                                     viewModel.onEvent(SplashEvent.ToggleThemeTransitionState)
+                                    onclick = !onclick
                                     viewModel.onEvent(SplashEvent.ToggleDarkTheme)
                                 }
                             },
@@ -131,7 +150,7 @@ fun SplashTopBar(
             )
 
 
-            PvScreen(paddingValues, state.isDarkTheme)
+            PvScreen(paddingValues)
             background?.let {
                 SplashSwitcher(
                     darkToLightRadius = state.darkToLightRadius,
