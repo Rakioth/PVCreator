@@ -16,25 +16,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import com.raks.pvcreator.presentation.components.PVCardSize
+import com.raks.pvcreator.util.LocalCardSize
 import com.raks.pvcreator.util.*
+
+private const val MAX_CHARS = 18
 
 @Composable
 fun PvTextField(
-    modifier: Modifier,
-    label: String,
-    value: TextFieldValue,
-    onValueChange: (TextFieldValue) -> Unit,
+    modifier:       Modifier,
+    label:          Int,
+    value:          String,
+    onValueChange: (String) -> Unit = {},
 ) {
-    initSize(LocalContext.current, PVCardSize.current)
-
+    val units                     = Units(LocalCardSize.current, LocalContext.current)
     val customTextSelectionColors = TextSelectionColors(
-        handleColor = MaterialTheme.colorScheme.outlineVariant,
+        handleColor     = MaterialTheme.colorScheme.outlineVariant,
         backgroundColor = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)
     )
 
@@ -44,53 +45,69 @@ fun PvTextField(
         modifier = modifier
     ) {
         Text(
-            text     = label,
-            modifier = Modifier
-                .weight(0.46f)
-                .padding(
-                    top = 2f.ph,
-                    bottom = 0.6f.ph,
-                )
-                .fillMaxSize()
-                .wrapContentHeight(Alignment.Bottom),
-            color = MaterialTheme.colorScheme.primary,
+            text       = stringResource(label),
+            modifier   = Modifier
+                  .weight(0.46f)
+                  .padding(
+                      top    = units.ph(2f),
+                      bottom = units.ph(0.6f),
+                  )
+                  .fillMaxSize()
+                  .wrapContentHeight(Alignment.Bottom),
+            color      = MaterialTheme.colorScheme.primary,
             fontWeight = FontWeight.W600,
-            fontSize = 2.5f.sh,
-            lineHeight = 3.3f.sh,
+            fontSize   = units.sh(2.5f),
+            lineHeight = units.sh(3.3f),
         )
         Box(
             modifier = Modifier
                 .weight(0.54f)
-                .fillMaxWidth()
+                .fillMaxSize()
                 .border(
-                    border = BorderStroke(1.dp, if (isFocused) MaterialTheme.colorScheme.outlineVariant else MaterialTheme.colorScheme.outline),
-                    shape = RoundedCornerShape(2f.pw),
+                    border = BorderStroke(
+                        1.dp,
+                        if (isFocused) MaterialTheme.colorScheme.outlineVariant else MaterialTheme.colorScheme.outline
+                    ),
+                    shape  = RoundedCornerShape(units.pw(2f)),
                 )
                 .background(
                     color = MaterialTheme.colorScheme.primaryContainer,
-                    shape = RoundedCornerShape(2f.pw),
+                    shape = RoundedCornerShape(units.pw(2f)),
                 ),
         ) {
             CompositionLocalProvider(LocalTextSelectionColors provides customTextSelectionColors) {
                 BasicTextField(
-                    value = value,
-                    onValueChange = { if (value != it) onValueChange(it) },
-                    modifier = Modifier
-                        .padding(
-                            horizontal = 3.1.pw,
-                            vertical = 1.6.ph,
-                        )
-                        .fillMaxSize()
-                        .wrapContentHeight(Alignment.Bottom)
-                        .onFocusChanged { isFocused = it.isFocused },
-                    singleLine = true,
-                    cursorBrush = SolidColor(MaterialTheme.colorScheme.outlineVariant),
-                    textStyle = TextStyle(
+                    value         = value,
+                    onValueChange = {
+                        val text = it.take(MAX_CHARS)
+
+                        if (text.contains(Regex("[a-zA-Z\\s]")) &&
+                            !text.contains(Regex("\\s{2,}")) &&
+                            !text.contains(Regex("^\\s")) &&
+                            text.length <= MAX_CHARS
+                        ) {
+                            onValueChange(text.lowercase()
+                                              .replace(Regex("(?<= |^)."))
+                                              { matchResult -> matchResult.value.uppercase() }
+                            )
+                        }
+                    },
+                    modifier      = Modifier
+                             .padding(
+                                 horizontal = units.pw(3.1),
+                                 vertical   = units.ph(1.6),
+                             )
+                             .fillMaxSize()
+                             .wrapContentHeight(Alignment.Bottom)
+                             .onFocusChanged { isFocused = it.isFocused },
+                    singleLine    = true,
+                    cursorBrush   = SolidColor(MaterialTheme.colorScheme.outlineVariant),
+                    textStyle     = TextStyle(
                         fontFamily = FontFamily.Default,
                         fontWeight = FontWeight.W400,
-                        fontSize = 2.5f.sh,
-                        lineHeight = 3.3f.sh,
-                        color = MaterialTheme.colorScheme.primary,
+                        fontSize   = units.sh(2.5f),
+                        lineHeight = units.sh(3.3f),
+                        color      = MaterialTheme.colorScheme.primary,
                     ),
                 )
             }

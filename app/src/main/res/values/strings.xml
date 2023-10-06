@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">PV Creator</string>
     <string name="label_pvcard">Piñata Vision Card</string>
+    <string name="label_card">Card</string>
+    <string name="label_item">Item</string>
+    <string name="label_variant">Variant</string>
+    <string name="label_wildcard">Wildcard</string>
+    <string name="label_name">Name</string>
+    <string name="label_none">None</string>
 </resources>

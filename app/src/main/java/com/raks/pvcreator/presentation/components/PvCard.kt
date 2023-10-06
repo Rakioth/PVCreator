@@ -9,38 +9,43 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.raks.pvcreator.R
+import com.raks.pvcreator.util.LocalTheme
+import com.raks.pvcreator.util.LocalCardSize
 
 @Composable
 fun PvCard(
-    darkTheme:     Boolean = LocalTheme.current,
-    painter:       Painter,
     paddingValues: PaddingValues,
+    darkTheme:     Boolean       = LocalTheme.current,
+    painter:       Painter       = painterResource(R.drawable.pv_card_light),
+    padding:       Dp            = 15.dp,
     textfields: @Composable ColumnScope.() -> Unit,
     barcode:    @Composable RowScope.()    -> Unit,
-) {
+
+    ) {
     val ratio = painter.intrinsicSize.width / painter.intrinsicSize.height
+
     var size by remember { mutableStateOf(IntSize.Zero) }
 
     Box(
         modifier = Modifier
-//            .onSizeChanged { size = it }
             .padding(
-                top    = paddingValues.calculateTopPadding() + 15.dp,
-                start  = 15.dp,
-                end    = 15.dp,
-                bottom = 15.dp,
+                top    = padding + paddingValues.calculateTopPadding(),
+                start  = padding,
+                end    = padding,
+                bottom = padding,
             )
             .wrapContentSize(Alignment.TopCenter)
             .aspectRatio(ratio)
-            .let {
+            .then(
                 if (ratio > 1)
-                    it.height(IntrinsicSize.Max)
+                    Modifier.height(IntrinsicSize.Max)
                 else
-                    it.width(IntrinsicSize.Max)
-            }
+                    Modifier.width(IntrinsicSize.Max)
+            )
             .onSizeChanged { size = it },
     ) {
         Image(
@@ -53,7 +58,7 @@ fun PvCard(
             Column(modifier = Modifier.weight(0.683f))
             {
                 Spacer(modifier = Modifier.weight(0.34f))
-                CompositionLocalProvider(PVCardSize provides size) {
+                CompositionLocalProvider(LocalCardSize provides size) {
                     textfields()
                 }
                 Spacer(modifier = Modifier.weight(0.06f))

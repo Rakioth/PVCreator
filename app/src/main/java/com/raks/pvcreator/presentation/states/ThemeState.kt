@@ -1,6 +1,6 @@
 package com.raks.pvcreator.presentation.states
 
-data class SplashState(
+data class ThemeState(
     val isThemeActive:        Boolean = false,
     val isDarkTheme:          Boolean = false,
     val startThemeTransition: Boolean = false,

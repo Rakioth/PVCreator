@@ -28,12 +28,12 @@ import kotlin.math.absoluteValue
 @OptIn(ExperimentalSnapperApi::class)
 @Composable
 internal fun WheelPicker(
+    options:            List<PickerOption>,
     modifier:           Modifier           = Modifier,
     size:               DpSize             = DpSize(128.dp, 128.dp),
     selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
-    options:            List<PickerOption>,
     onScrollFinished: (snappedOption: PickerOption?) -> Unit = {},
-    content: @Composable LazyItemScope.(index: Int) -> Unit,
+    content: @Composable LazyItemScope.(index: Int)  -> Unit,
 ) {
     val lazyListState      = rememberLazyListState()
     val snapperLayoutInfo  = rememberLazyListSnapperLayoutInfo(lazyListState = lazyListState)
@@ -151,7 +151,7 @@ object WheelPickerDefaults {
         enabled = enabled,
         shape   = shape,
         color   = color,
-        border  = border
+        border  = border,
     )
 
 }
@@ -162,13 +162,13 @@ interface SelectorProperties {
     fun enabled(): State<Boolean>
 
     @Composable
-    fun shape(): State<Shape>
+    fun shape():   State<Shape>
 
     @Composable
-    fun color(): State<Color>
+    fun color():   State<Color>
 
     @Composable
-    fun border(): State<BorderStroke?>
+    fun border():  State<BorderStroke?>
 
 }
 
@@ -181,23 +181,19 @@ internal class DefaultSelectorProperties(
 ) : SelectorProperties {
 
     @Composable
-    override fun enabled(): State<Boolean> {
-        return rememberUpdatedState(enabled)
-    }
+    override fun enabled(): State<Boolean> =
+        rememberUpdatedState(enabled)
 
     @Composable
-    override fun shape(): State<Shape> {
-        return rememberUpdatedState(shape)
-    }
+    override fun shape():   State<Shape> =
+        rememberUpdatedState(shape)
 
     @Composable
-    override fun color(): State<Color> {
-        return rememberUpdatedState(color)
-    }
+    override fun color():   State<Color> =
+        rememberUpdatedState(color)
 
     @Composable
-    override fun border(): State<BorderStroke?> {
-        return rememberUpdatedState(border)
-    }
+    override fun border():  State<BorderStroke?> =
+        rememberUpdatedState(border)
 
 }

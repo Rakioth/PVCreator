@@ -1,14 +1,12 @@
 package com.raks.pvcreator.ui
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.raks.pvcreator.domain.model.ThemeIcon
 import com.raks.pvcreator.domain.usecase.ThemeUseCases
-import com.raks.pvcreator.presentation.events.SplashEvent
-import com.raks.pvcreator.presentation.states.SplashState
+import com.raks.pvcreator.presentation.events.ThemeEvent
+import com.raks.pvcreator.presentation.states.ThemeState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.take
@@ -19,24 +17,24 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val themeUseCases: ThemeUseCases,
 ) : ViewModel() {
-    private val _state: MutableState<SplashState?> = mutableStateOf(null)
-    val state: State<SplashState?> = _state
+    var state: ThemeState? by mutableStateOf(null)
+        private set
+
 
     init {
         viewModelScope.launch {
             themeUseCases.getThemeConfig().take(1).collect {
 
-                val darktheme = when(it.themeIcon) {
+                val darkTheme = when (it.themeIcon) {
                     ThemeIcon.DEFAULT -> true
-                    ThemeIcon.LIGHT -> false
-                    ThemeIcon.DARK -> true
+                    ThemeIcon.LIGHT   -> false
+                    ThemeIcon.DARK    -> true
                 }
 
-
-                _state.value = SplashState(
+                state = ThemeState(
                     isThemeActive = it.isThemeActive,
-                    isDarkTheme = darktheme,
-                    startThemeTransition = darktheme,
+                    isDarkTheme = darkTheme,
+                    startThemeTransition = darkTheme,
                     lightToDarkRadius = 2500f,
                     darkToLightRadius = 2500f,
                 )
@@ -45,35 +43,57 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun onEvent(events: SplashEvent) {
+    fun onEvent(events: ThemeEvent) {
         when (events) {
 
-            is SplashEvent.ToggleThemeTransitionState -> {
-                _state.value = state.value?.copy(
-                    startThemeTransition = !state.value!!.startThemeTransition
+            is ThemeEvent.ToggleThemeTransitionState -> {
+                state = state?.copy(
+                    startThemeTransition = !state!!.startThemeTransition
                 )
             }
 
-            is SplashEvent.ToggleDarkTheme            -> {
+            is ThemeEvent.ToggleDarkTheme            -> {
                 viewModelScope.launch {
                     delay(20)
-                    _state.value = state.value?.copy(
-                        isDarkTheme = !state.value!!.isDarkTheme
+                    state = state?.copy(
+                        isDarkTheme = !state!!.isDarkTheme
                     )
-                    themeUseCases.setTheme(if (state.value!!.isDarkTheme) ThemeIcon.DARK else ThemeIcon.LIGHT)
+                    themeUseCases.setTheme(if (state!!.isDarkTheme) ThemeIcon.DARK else ThemeIcon.LIGHT)
                 }
             }
 
-            is SplashEvent.UpdateDarkToLightRadius    -> {
-                _state.value = state.value?.copy(
+            is ThemeEvent.UpdateDarkToLightRadius    -> {
+                state = state?.copy(
                     darkToLightRadius = events.radius
                 )
             }
 
-            is SplashEvent.UpdateLightToDarkRadius    -> {
-                _state.value = state.value?.copy(
+            is ThemeEvent.UpdateLightToDarkRadius    -> {
+                state = state?.copy(
                     lightToDarkRadius = events.radius
                 )
+            }
+
+            is ThemeEvent.StateReady                 -> {
+                viewModelScope.launch {
+                    themeUseCases.getThemeConfig().take(1).collect {
+
+                        val darkTheme = when (it.themeIcon) {
+                            ThemeIcon.DEFAULT -> events.isSystemInDarkTheme
+                            ThemeIcon.LIGHT   -> false
+                            ThemeIcon.DARK    -> true
+                        }
+
+                        state = ThemeState(
+                            isThemeActive = it.isThemeActive,
+                            isDarkTheme = darkTheme,
+                            startThemeTransition = darkTheme,
+                            lightToDarkRadius = 2500f,
+                            darkToLightRadius = 2500f,
+                        )
+                    }
+
+                }
             }
 
         }

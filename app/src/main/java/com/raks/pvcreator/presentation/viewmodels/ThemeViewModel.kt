@@ -5,19 +5,19 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.raks.pvcreator.presentation.events.SplashEvent
-import com.raks.pvcreator.presentation.states.SplashState
+import com.raks.pvcreator.presentation.events.ThemeEvent
+import com.raks.pvcreator.presentation.states.ThemeState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class SplashViewModel : ViewModel() {
+class ThemeViewModel : ViewModel() {
 
-    private val _state: MutableState<SplashState?> = mutableStateOf(null)
-    val state: State<SplashState?> = _state
+    private val _state: MutableState<ThemeState?> = mutableStateOf(null)
+    val state: State<ThemeState?> = _state
 
     init {
         viewModelScope.launch {
-                _state.value = SplashState(
+                _state.value = ThemeState(
                     isDarkTheme = true,
                     startThemeTransition = true,
                     lightToDarkRadius = 2500f,
@@ -26,15 +26,15 @@ class SplashViewModel : ViewModel() {
         }
     }
 
-    fun onEvent(event: SplashEvent) {
+    fun onEvent(event: ThemeEvent) {
         when (event) {
-            is SplashEvent.ToggleThemeTransitionState -> {
+            is ThemeEvent.ToggleThemeTransitionState -> {
                 _state.value = state.value?.copy(
                     startThemeTransition = !state.value!!.startThemeTransition
                 )
             }
 
-            is SplashEvent.ToggleDarkTheme            -> {
+            is ThemeEvent.ToggleDarkTheme            -> {
                 viewModelScope.launch {
                     delay(20)
                     _state.value = state.value?.copy(
@@ -44,17 +44,19 @@ class SplashViewModel : ViewModel() {
                 }
             }
 
-            is SplashEvent.UpdateLightToDarkRadius    -> {
+            is ThemeEvent.UpdateLightToDarkRadius    -> {
                 _state.value = state.value?.copy(
                     darkToLightRadius = event.radius
                 )
             }
 
-            is SplashEvent.UpdateDarkToLightRadius    -> {
+            is ThemeEvent.UpdateDarkToLightRadius    -> {
                 _state.value = state.value?.copy(
                     lightToDarkRadius = event.radius
                 )
             }
+
+            is ThemeEvent.StateReady                 -> TODO()
         }
     }
 

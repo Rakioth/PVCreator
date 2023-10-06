@@ -8,16 +8,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.raks.pvcreator.domain.model.PickerOption
-import com.raks.pvcreator.presentation.components.WheelPicker
-import com.raks.pvcreator.presentation.components.WheelPickerDefaults
-
-//import com.raks.pvcreator.util.stringResName
+import com.raks.pvcreator.util.stringResName
 
 @Composable
 fun PvPicker(
+    options:  List<PickerOption>,
     modifier: Modifier           = Modifier,
     size:     DpSize             = DpSize(128.dp, 128.dp),
-    options:  List<PickerOption>,
     onScrollFinished: (snappedOption: PickerOption?) -> Unit = {},
 ) {
     WheelPicker(
@@ -33,8 +30,7 @@ fun PvPicker(
         onScrollFinished   = onScrollFinished,
     ) { index ->
         Text(
-//            text     = stringResName(options[index].ref),
-            text     = options[index].ref,
+            text     = stringResName(options[index].ref),
             style    = MaterialTheme.typography.bodyLarge,
             color    = MaterialTheme.colorScheme.tertiary,
             maxLines = 1,

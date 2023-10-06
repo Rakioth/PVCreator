@@ -7,11 +7,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import com.airbnb.lottie.compose.*
 import com.raks.pvcreator.R
-import com.raks.pvcreator.presentation.components.LocalTheme
+import com.raks.pvcreator.util.LocalTheme
 
 @Composable
-fun SplashAnimation() {
-    val raw       = if (LocalTheme.current) R.raw.pv_background_dark else R.raw.pv_background_light
+fun LottieBackground(
+    darkTheme: Boolean = LocalTheme.current
+) {
+    val raw       = if (darkTheme) R.raw.pv_background_dark else R.raw.pv_background_light
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(raw))
     val progress    by animateLottieCompositionAsState(
         composition = composition,
@@ -21,7 +23,7 @@ fun SplashAnimation() {
     LottieAnimation(
         composition  = composition,
         progress     = { progress },
-        contentScale = ContentScale.FillBounds,
         modifier     = Modifier.fillMaxSize(),
+        contentScale = ContentScale.FillBounds,
     )
 }

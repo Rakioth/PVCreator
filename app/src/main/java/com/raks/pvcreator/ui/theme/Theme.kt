@@ -9,9 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import com.raks.pvcreator.presentation.components.LocalTheme
+import com.raks.pvcreator.util.LocalTheme
 
-private val DarkColorScheme = darkColorScheme(
+private val DarkColorScheme  = darkColorScheme(
     inversePrimary     = InverseDark,
     primary            = LabelDark,
     primaryContainer   = BackgroundDark,
