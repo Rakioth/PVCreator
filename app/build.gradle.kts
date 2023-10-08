@@ -66,6 +66,7 @@ dependencies {
     implementation(Libs.COMPOSE_MATERIAL)
     implementation(Libs.COMPOSE_PREVIEW)
     implementation(Libs.HILT_ANDROID)
+    implementation(Libs.INFO_BAR)
     implementation(Libs.NAVIGATION_COMPOSE)
     implementation(Libs.NAVIGATION_HILT)
     implementation(Libs.PICKER_SNAPPER)

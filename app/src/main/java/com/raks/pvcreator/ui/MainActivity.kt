@@ -8,6 +8,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.CompositionLocalProvider
 import com.raks.pvcreator.presentation.MainScreen
 import com.raks.pvcreator.presentation.events.ThemeEvent
+import com.raks.pvcreator.presentation.viewmodels.ThemeViewModel
 import com.raks.pvcreator.ui.theme.PVCreatorTheme
 import com.raks.pvcreator.util.LocalTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val viewModel by viewModels<MainViewModel>()
+    private val viewModel by viewModels<ThemeViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,14 +24,13 @@ class MainActivity : ComponentActivity() {
             val state               = viewModel.state
             val isSystemInDarkTheme = isSystemInDarkTheme()
 
-//            viewModel.onEvent(ThemeEvent.StateReady(isSystemInDarkTheme))
-
             if (state != null)
                 CompositionLocalProvider(LocalTheme provides state.isDarkTheme) {
                     PVCreatorTheme {
                         MainScreen(viewModel = viewModel)
                     }
                 }
+            else viewModel.onEvent(ThemeEvent.StateReady(isSystemInDarkTheme))
         }
     }
 

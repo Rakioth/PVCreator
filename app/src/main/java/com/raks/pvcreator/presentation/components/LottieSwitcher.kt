@@ -19,35 +19,35 @@ import androidx.core.graphics.applyCanvas
 import com.airbnb.lottie.compose.*
 import com.raks.pvcreator.R
 import com.raks.pvcreator.presentation.events.ThemeEvent
-import com.raks.pvcreator.ui.MainViewModel
+import com.raks.pvcreator.presentation.viewmodels.ThemeViewModel
 import com.raks.pvcreator.util.LocalTheme
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlin.math.roundToInt
 
-private var raw: Int = 0
+private var raw = 0
 
 @Composable
 fun LottieSwitcher(
-    viewModel:           MainViewModel,
+    viewModel:           ThemeViewModel,
     capturingViewBounds: Rect?,
     onPositioned:       (LayoutCoordinates) -> Unit,
-    onScreenshot:       (Bitmap) -> Unit,
-    darkTheme:           Boolean  = LocalTheme.current,
+    onScreenshot:       (Bitmap)            -> Unit,
+    onSwitch:           ()                  -> Unit,
+    darkTheme:           Boolean                    = LocalTheme.current,
 ) {
     val view = LocalView.current
 
     if (raw == 0)
         raw = if (darkTheme) R.raw.pv_switch_dark else R.raw.pv_switch_light
 
-    var isToggled   by remember { mutableStateOf(false) }
+    var isToggled   by remember { mutableStateOf(false)             }
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(raw))
     val progress    by animateLottieCompositionAsState(
         composition = composition,
-        isPlaying   = true,
         clipSpec    = LottieClipSpec.Frame(max = 50),
-        speed       = if (isToggled) 1.7f else -2.2f,
+        speed       = if (isToggled) 1.0f else -1.0f,
     )
 
     LaunchedEffect(viewModel.state?.startThemeTransition) {
@@ -85,14 +85,14 @@ fun LottieSwitcher(
                        onScreenshot(takeScreenShot(it, view))
                        viewModel.onEvent(ThemeEvent.ToggleThemeTransitionState)
                        isToggled = !isToggled
+                       if (!viewModel.state?.isThemeActive!!) onSwitch()
                        viewModel.onEvent(ThemeEvent.ToggleDarkTheme)
                    }
                },
     )
-
 }
 
-private fun takeScreenShot(bounds: Rect, view: View) =
+private fun takeScreenShot(bounds: Rect, view: View): Bitmap =
     Bitmap.createBitmap(
         bounds.width.roundToInt(),
         bounds.height.roundToInt(),

@@ -14,24 +14,27 @@ data class PvCreator(
         private const val WILDCARD_PAYLOAD   = "01001"
         private const val NAME_START_PAYLOAD = "00111"
         private const val NAME_END_PAYLOAD   = "00000"
+
+        fun default() = PvCreator(1, "000000110000", null, null, "")
     }
 
     val cardPayload:     Boolean
         get() = card !in 1..2
 
     val itemPayload:     String
-        get() = item.let          { "$ITEM_PAYLOAD$it" }
+        get() = item.let                { "$ITEM_PAYLOAD$it" }
 
     val variantPayload:  String
-        get() = variant?.let      { "$VARIANT_PAYLOAD$it" } ?: ""
+        get() = variant?.let            { "$VARIANT_PAYLOAD$it" } ?: ""
 
     val wildcardPayload: String
-        get() = wildcard?.let     { "$WILDCARD_PAYLOAD$it" } ?: ""
+        get() = wildcard?.let           { "$WILDCARD_PAYLOAD$it" } ?: ""
 
     val namePayload:     String
-        get() = toBits(name)?.let { "$NAME_START_PAYLOAD$it$NAME_END_PAYLOAD" } ?: ""
+        get() = toBits(name, card)?.let { "$NAME_START_PAYLOAD$it$NAME_END_PAYLOAD" } ?: ""
 
-    private fun toBits(name: String?): String? {
+    private fun toBits(name: String?, card: Int): String? {
+        if (card != 1)            return null
         if (name.isNullOrBlank()) return null
 
         val bits = StringBuilder()

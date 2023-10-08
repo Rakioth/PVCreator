@@ -16,8 +16,7 @@ private val DarkColorScheme  = darkColorScheme(
     primary            = LabelDark,
     primaryContainer   = BackgroundDark,
     secondary          = PickerSelectedTextDark,
-    secondaryContainer = PickerSelectedDark,
-    tertiary           = PickerTextDark,
+    secondaryContainer = PickerSelectedBackgroundDark,
     tertiaryContainer  = PickerBackgroundDark,
     outline            = SeparatorDark,
     outlineVariant     = SystemBlue,
@@ -28,8 +27,7 @@ private val LightColorScheme = lightColorScheme(
     primary            = LabelLight,
     primaryContainer   = BackgroundLight,
     secondary          = PickerSelectedTextLight,
-    secondaryContainer = PickerSelectedLight,
-    tertiary           = PickerTextLight,
+    secondaryContainer = PickerSelectedBackgroundLight,
     tertiaryContainer  = PickerBackgroundLight,
     outline            = SeparatorLight,
     outlineVariant     = SystemBlue,
@@ -40,13 +38,11 @@ fun PVCreatorTheme(
     darkTheme: Boolean = LocalTheme.current,
     content: @Composable () -> Unit,
 ) {
-    val colorScheme = if (darkTheme)
-        DarkColorScheme
-    else
-        LightColorScheme
+    val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
 
     val view = LocalView.current
-    if (!view.isInEditMode) {
+
+    if (!view.isInEditMode)
         SideEffect {
             val window = (view.context as Activity).window
 
@@ -60,7 +56,6 @@ fun PVCreatorTheme(
 
             WindowCompat.setDecorFitsSystemWindows(window, false)
         }
-    }
 
     MaterialTheme(
         colorScheme = colorScheme,

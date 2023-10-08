@@ -16,7 +16,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.raks.pvcreator.domain.model.PickerOption
 import dev.chrisbanes.snapper.ExperimentalSnapperApi
@@ -29,22 +29,24 @@ import kotlin.math.absoluteValue
 @Composable
 internal fun WheelPicker(
     options:            List<PickerOption>,
-    modifier:           Modifier           = Modifier,
-    size:               DpSize             = DpSize(128.dp, 128.dp),
-    selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
-    onScrollFinished: (snappedOption: PickerOption?) -> Unit = {},
-    content: @Composable LazyItemScope.(index: Int)  -> Unit,
+    count:              Int,
+    rowCount:           Int,
+    modifier:           Modifier                            = Modifier,
+    startIndex:         Int                                 = 0,
+    height:             Dp                                  = 34.dp,
+    selectorProperties: SelectorProperties                  = WheelPickerDefaults.selectorProperties(),
+    onScrollFinished:  (PickerOption, Int)          -> Unit,
+    content: @Composable LazyItemScope.(index: Int) -> Unit,
 ) {
-    val lazyListState      = rememberLazyListState()
+    val lazyListState      = rememberLazyListState(startIndex)
     val snapperLayoutInfo  = rememberLazyListSnapperLayoutInfo(lazyListState = lazyListState)
     val isScrollInProgress = lazyListState.isScrollInProgress
 
-    LaunchedEffect(isScrollInProgress, options) {
+    LaunchedEffect(isScrollInProgress, count) {
         if (!isScrollInProgress) {
-            val snappedItemIndex = calculateSnappedItemIndex(snapperLayoutInfo)
-            val snappedOption    = snappedItemIndex?.let { options.getOrNull(it) }
-            onScrollFinished(snappedOption)
-            snappedItemIndex?.let { lazyListState.scrollToItem(it) }
+            val snappedItemIndex = calculateSnappedItemIndex(snapperLayoutInfo) ?: startIndex
+            onScrollFinished(options[snappedItemIndex], snappedItemIndex)
+            lazyListState.scrollToItem(snappedItemIndex)
         }
     }
 
@@ -52,41 +54,43 @@ internal fun WheelPicker(
         modifier         = modifier,
         contentAlignment = Alignment.Center,
     ) {
-        if (selectorProperties.enabled().value) {
+        if (selectorProperties.enabled().value)
             Surface(
-                modifier = Modifier.size(size),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(height / rowCount),
                 shape    = selectorProperties.shape().value,
                 color    = selectorProperties.color().value,
                 border   = selectorProperties.border().value,
             ) {}
-        }
         LazyColumn(
-            modifier       = Modifier.size(size),
+            modifier       = Modifier
+                      .fillMaxWidth()
+                      .height(height),
             state          = lazyListState,
-            contentPadding = PaddingValues(vertical = size.height),
-            flingBehavior  = rememberSnapperFlingBehavior(
-                lazyListState = lazyListState
-            ),
+            contentPadding = PaddingValues(vertical = height / rowCount * ((rowCount - 1) / 2)),
+            flingBehavior  = rememberSnapperFlingBehavior(lazyListState = lazyListState),
         ) {
-            items(options.size) { index ->
+            items(count) { index ->
                 val rotationX = calculateAnimatedRotationX(
                     lazyListState     = lazyListState,
                     snapperLayoutInfo = snapperLayoutInfo,
                     index             = index,
+                    rowCount          = rowCount,
                 )
                 Box(
                     modifier         = Modifier
-                        .size(size)
-                        .alpha(
-                            calculateAnimatedAlpha(
-                                lazyListState     = lazyListState,
-                                snapperLayoutInfo = snapperLayoutInfo,
-                                index             = index,
-                            )
-                        )
-                        .graphicsLayer {
-                            this.rotationX = rotationX
-                        },
+                                .fillMaxWidth()
+                                .height(height / rowCount)
+                                .alpha(
+                                    calculateAnimatedAlpha(
+                                        lazyListState     = lazyListState,
+                                        snapperLayoutInfo = snapperLayoutInfo,
+                                        index             = index,
+                                        rowCount          = rowCount,
+                                    )
+                                )
+                                .graphicsLayer { this.rotationX = rotationX },
                     contentAlignment = Alignment.Center
                 ) {
                     content(index)
@@ -113,14 +117,16 @@ private fun calculateAnimatedAlpha(
     lazyListState:     LazyListState,
     snapperLayoutInfo: SnapperLayoutInfo,
     index:             Int,
+    rowCount:          Int,
 ): Float {
 
-    val distanceToIndexSnap = snapperLayoutInfo.distanceToIndexSnap(index).absoluteValue
-    val layoutInfo          = remember { derivedStateOf { lazyListState.layoutInfo } }.value
-    val viewPortHeight      = layoutInfo.viewportSize.height.toFloat()
+    val distanceToIndexSnap  = snapperLayoutInfo.distanceToIndexSnap(index).absoluteValue
+    val layoutInfo           = remember { derivedStateOf { lazyListState.layoutInfo } }.value
+    val viewPortHeight       = layoutInfo.viewportSize.height.toFloat()
+    val singleViewPortHeight = viewPortHeight / rowCount
 
-    return if (distanceToIndexSnap in 0..viewPortHeight.toInt())
-        1.2f - (distanceToIndexSnap / viewPortHeight)
+    return if (distanceToIndexSnap in 0..singleViewPortHeight.toInt())
+        1.2f - (distanceToIndexSnap / singleViewPortHeight)
     else 0.2f
 }
 
@@ -130,13 +136,16 @@ private fun calculateAnimatedRotationX(
     lazyListState:     LazyListState,
     snapperLayoutInfo: SnapperLayoutInfo,
     index:             Int,
+    rowCount:          Int,
 ): Float {
 
-    val distanceToIndexSnap = snapperLayoutInfo.distanceToIndexSnap(index)
-    val layoutInfo          = remember { derivedStateOf { lazyListState.layoutInfo } }.value
-    val viewPortHeight      = layoutInfo.viewportSize.height.toFloat()
+    val distanceToIndexSnap  = snapperLayoutInfo.distanceToIndexSnap(index)
+    val layoutInfo           = remember { derivedStateOf { lazyListState.layoutInfo } }.value
+    val viewPortHeight       = layoutInfo.viewportSize.height.toFloat()
+    val singleViewPortHeight = viewPortHeight / rowCount
+    val animatedRotationX    = -20f * (distanceToIndexSnap / singleViewPortHeight)
 
-    return -20f * (distanceToIndexSnap / viewPortHeight)
+    return if (animatedRotationX.isNaN()) 0f else animatedRotationX
 }
 
 object WheelPickerDefaults {

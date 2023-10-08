@@ -1,24 +1,27 @@
 package com.raks.pvcreator.presentation
 
+import SweetToast
 import android.graphics.Bitmap
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
+import com.radusalagean.infobarcompose.InfoBarMessage
 import com.raks.pvcreator.presentation.components.*
-import com.raks.pvcreator.ui.MainViewModel
+import com.raks.pvcreator.presentation.viewmodels.ThemeViewModel
 
 @Composable
 fun MainScreen(
-    viewModel: MainViewModel
+    viewModel: ThemeViewModel
 ) {
     var capturingViewBounds by remember { mutableStateOf<Rect?>(null)              }
     var positionSwitcher    by remember { mutableStateOf<LayoutCoordinates?>(null) }
     var viewScreenshot      by remember { mutableStateOf<Bitmap?>(null)            }
+    var message             by remember { mutableStateOf<InfoBarMessage?>(null)    }
 
     Scaffold(
         topBar = {
@@ -27,6 +30,7 @@ fun MainScreen(
                 capturingViewBounds = capturingViewBounds,
                 onPositioned        = { positionSwitcher = it },
                 onScreenshot        = { viewScreenshot   = it },
+                onSwitch            = { message = InfoBarMessage(displayTimeSeconds = 3) },
             )
         }
     ) { paddingValues ->
@@ -38,9 +42,14 @@ fun MainScreen(
             LottieBackground()
             PvLayout(paddingValues = paddingValues)
             AnimationSwitcher(
-                state    = viewModel.state!!,
+                state    = viewModel.state,
                 position = positionSwitcher,
                 view     = viewScreenshot,
+            )
+            SweetToast(
+                paddingValues = paddingValues,
+                message       = message,
+                onDismiss     = { message = null },
             )
         }
     }

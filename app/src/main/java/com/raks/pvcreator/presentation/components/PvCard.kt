@@ -33,10 +33,10 @@ fun PvCard(
     Box(
         modifier = Modifier
             .padding(
-                top    = padding + paddingValues.calculateTopPadding(),
                 start  = padding,
+                top    = padding + paddingValues.calculateTopPadding(),
                 end    = padding,
-                bottom = padding,
+                bottom = padding + paddingValues.calculateBottomPadding(),
             )
             .wrapContentSize(Alignment.TopCenter)
             .aspectRatio(ratio)
@@ -57,11 +57,11 @@ fun PvCard(
             Spacer(modifier = Modifier.weight(0.127f))
             Column(modifier = Modifier.weight(0.683f))
             {
-                Spacer(modifier = Modifier.weight(0.34f))
+                Spacer(modifier = Modifier.weight(0.33f))
                 CompositionLocalProvider(LocalCardSize provides size) {
                     textfields()
                 }
-                Spacer(modifier = Modifier.weight(0.06f))
+                Spacer(modifier = Modifier.weight(0.07f))
             }
             Column(modifier = Modifier.weight(0.19f))
             {

@@ -1,64 +1,81 @@
 package com.raks.pvcreator.presentation.viewmodels
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.raks.pvcreator.domain.model.ThemeIcon
+import com.raks.pvcreator.domain.usecase.ThemeUseCases
 import com.raks.pvcreator.presentation.events.ThemeEvent
 import com.raks.pvcreator.presentation.states.ThemeState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ThemeViewModel : ViewModel() {
+@HiltViewModel
+class ThemeViewModel @Inject constructor(
+    private val themeUseCases: ThemeUseCases
+) : ViewModel() {
 
-    private val _state: MutableState<ThemeState?> = mutableStateOf(null)
-    val state: State<ThemeState?> = _state
-
-    init {
-        viewModelScope.launch {
-                _state.value = ThemeState(
-                    isDarkTheme = true,
-                    startThemeTransition = true,
-                    lightToDarkRadius = 2500f,
-                    darkToLightRadius = 2500f,
-                )
-        }
-    }
+    var state: ThemeState? by mutableStateOf(null)
+        private set
 
     fun onEvent(event: ThemeEvent) {
         when (event) {
+
             is ThemeEvent.ToggleThemeTransitionState -> {
-                _state.value = state.value?.copy(
-                    startThemeTransition = !state.value!!.startThemeTransition
+                state = state?.copy(
+                    startThemeTransition = !state!!.startThemeTransition
                 )
             }
 
             is ThemeEvent.ToggleDarkTheme            -> {
                 viewModelScope.launch {
                     delay(20)
-                    _state.value = state.value?.copy(
-                        isDarkTheme = !state.value!!.isDarkTheme
+                    state = state?.copy(
+                        isDarkTheme = !state!!.isDarkTheme
                     )
-//                    themeUseCases.changeTheme(if (state.value?.isDarkTheme!!) ThemeIcon.DARK else ThemeIcon.LIGHT)
+                    if (!state?.isThemeActive!!) delay(3000)
+                    themeUseCases.setTheme(if (state!!.isDarkTheme) ThemeIcon.DARK else ThemeIcon.LIGHT)
                 }
             }
 
             is ThemeEvent.UpdateLightToDarkRadius    -> {
-                _state.value = state.value?.copy(
-                    darkToLightRadius = event.radius
-                )
-            }
-
-            is ThemeEvent.UpdateDarkToLightRadius    -> {
-                _state.value = state.value?.copy(
+                state = state?.copy(
                     lightToDarkRadius = event.radius
                 )
             }
 
-            is ThemeEvent.StateReady                 -> TODO()
+            is ThemeEvent.UpdateDarkToLightRadius    -> {
+                state = state?.copy(
+                    darkToLightRadius = event.radius
+                )
+            }
+
+            is ThemeEvent.StateReady                 -> {
+                viewModelScope.launch {
+                    themeUseCases.getThemeConfig()
+                        .take(1)
+                        .collect {
+                            val darkTheme = when (it.themeIcon) {
+                                ThemeIcon.DEFAULT -> event.isSystemInDarkTheme
+                                ThemeIcon.LIGHT   -> false
+                                ThemeIcon.DARK    -> true
+                            }
+
+                            state = ThemeState(
+                                isThemeActive        = it.isThemeActive,
+                                isDarkTheme          = darkTheme,
+                                startThemeTransition = darkTheme,
+                                lightToDarkRadius    = 0f,
+                                darkToLightRadius    = 0f,
+                            )
+                        }
+                }
+            }
+
         }
     }
-
 
 }

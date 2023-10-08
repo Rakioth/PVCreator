@@ -1,7 +1,6 @@
 package com.raks.pvcreator.presentation.viewmodels
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.raks.pvcreator.domain.usecase.PvUseCases
@@ -9,95 +8,102 @@ import com.raks.pvcreator.domain.util.PvCreator
 import com.raks.pvcreator.presentation.events.PvEvent
 import com.raks.pvcreator.presentation.states.PvState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class PvViewModel @Inject constructor(
-    private val pvUseCases: PvUseCases,
+    private val pvUseCases: PvUseCases
 ) : ViewModel() {
 
-    private val _state = mutableStateOf(PvState())
-    val state: State<PvState> = _state
+    var state by mutableStateOf(PvState())
+        private set
 
-    private val _pvCard = mutableStateOf(
-        PvCreator(
-            card = 1,
-            item = "000000110000",
-            variant = null,
-            wildcard = null,
-            name = "",
-        )
-    )
-    val pvCard: State<PvCreator> = _pvCard
+    private val pvCreator = MutableStateFlow(PvCreator.default())
 
     init {
         viewModelScope.launch {
-            _state.value = state.value.copy(
-                cards = pvUseCases.getCards(),
-                items = pvUseCases.getItems(1),
-                variants = pvUseCases.getVariants(1),
-                wildcards = pvUseCases.getWildcards(1),
-                barcode = pvUseCases.getBarcode(pvCard.value),
+            state = state.copy(
+                cards     = pvUseCases.getCards(),
+                items     = pvUseCases.getItems(pvCreator.value.card),
+                variants  = pvUseCases.getVariants(pvCreator.value.card),
+                wildcards = pvUseCases.getWildcards(pvCreator.value.card),
             )
+
+            pvCreator.collect {
+                state = state.copy(
+                    barcode = pvUseCases.getBarcode(it)
+                )
+            }
         }
     }
 
     fun onEvent(event: PvEvent) {
         when (event) {
-            is PvEvent.InputCard     -> {
-                if (event.pickerOption.id !in 1..2)
-                    viewModelScope.launch {
-                        _state.value = state.value.copy(
-                            items = pvUseCases.getItems(event.pickerOption.id),
-                        )
-                    }
-                else
-                    viewModelScope.launch {
-                        _state.value = state.value.copy(
-                            variants = pvUseCases.getVariants(event.pickerOption.id),
-                            wildcards = pvUseCases.getWildcards(event.pickerOption.id),
-                        )
-                    }
 
-                _pvCard.value = pvCard.value.copy(
-                    card = event.pickerOption.id
-                )
+            is PvEvent.InputCard     -> {
+                state = when (event.pickerOption.id) {
+                    1    -> state.copy(isEggType = false, isOtherType = false)
+                    2    -> state.copy(isEggType = true,  isOtherType = false)
+                    else -> state.copy(isEggType = false, isOtherType = true)
+                }
+
+                viewModelScope.launch {
+                    state = state.copy(
+                        items = pvUseCases.getItems(event.pickerOption.id),
+                    )
+
+                    pvCreator.update {
+                        it.copy(
+                            card = event.pickerOption.id,
+                        )
+                    }
+                }
             }
 
             is PvEvent.InputItem     -> {
-                if (event.pickerOption.id in 1..2)
-                    viewModelScope.launch {
-                        _state.value = state.value.copy(
-                            variants = pvUseCases.getVariants(event.pickerOption.id),
+                viewModelScope.launch {
+                    if (!pvCreator.value.cardPayload)
+                        state = state.copy(
+                            variants  = pvUseCases.getVariants(event.pickerOption.id),
                             wildcards = pvUseCases.getWildcards(event.pickerOption.id),
                         )
-                    }
 
-                _pvCard.value = pvCard.value.copy(
-                    item = event.pickerOption.code!!
-                )
+                    pvCreator.update {
+                        it.copy(
+                            item = event.pickerOption.code!!
+                        )
+                    }
+                }
             }
 
             is PvEvent.InputVariant  -> {
-                _pvCard.value = pvCard.value.copy(
-                    variant = event.pickerOption.code
-                )
+                pvCreator.update {
+                    it.copy(
+                        variant = event.pickerOption.code
+                    )
+                }
             }
 
             is PvEvent.InputWildcard -> {
-                _pvCard.value = pvCard.value.copy(
-                    wildcard = event.pickerOption.code
-                )
+                pvCreator.update {
+                    it.copy(
+                        wildcard = event.pickerOption.code
+                    )
+                }
             }
 
             is PvEvent.InputName     -> {
-                _pvCard.value = pvCard.value.copy(
-                    name = event.name
-                )
+                pvCreator.update {
+                    it.copy(
+                        name = event.name
+                    )
+                }
             }
+
         }
     }
-
 
 }

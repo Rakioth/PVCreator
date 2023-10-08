@@ -8,25 +8,27 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.LayoutCoordinates
-import com.raks.pvcreator.ui.MainViewModel
+import com.raks.pvcreator.presentation.viewmodels.ThemeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
-    viewModel:           MainViewModel,
+    viewModel:           ThemeViewModel,
     capturingViewBounds: Rect?,
     onPositioned:       (LayoutCoordinates) -> Unit,
-    onScreenshot:       (Bitmap) -> Unit,
+    onScreenshot:       (Bitmap)            -> Unit,
+    onSwitch:           ()                  -> Unit,
 ) {
     CenterAlignedTopAppBar(
         title  = {
             LottieSwitcher(
                 viewModel           = viewModel,
                 capturingViewBounds = capturingViewBounds,
-                onScreenshot        = { onScreenshot(it) },
-                onPositioned        = { onPositioned(it) },
+                onPositioned        = onPositioned,
+                onScreenshot        = onScreenshot,
+                onSwitch            = onSwitch,
             )
         },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
     )
 }

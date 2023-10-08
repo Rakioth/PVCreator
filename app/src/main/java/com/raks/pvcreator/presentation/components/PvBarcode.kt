@@ -1,6 +1,8 @@
 package com.raks.pvcreator.presentation.components
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,13 +14,15 @@ private const val BARCODE_ROWS    = 4
 private const val BARCODE_COLUMNS = 113
 
 @Composable
-fun PvBarcode(
-    modifier:       Modifier,
+fun RowScope.PvBarcode(
     barcodePattern: List<String>,
+    modifier:       Modifier     = Modifier,
     barcodeColor:   Color        = MaterialTheme.colorScheme.primary,
 ) {
     Canvas(
-        modifier = modifier,
+        modifier = modifier
+            .weight(0.33f)
+            .fillMaxSize(),
         onDraw   = {
             val barcodeWidth  = size.width  / BARCODE_ROWS
             val barcodeHeight = size.height / BARCODE_COLUMNS

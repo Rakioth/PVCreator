@@ -11,6 +11,7 @@ object Versions {
     const val COMPOSE_LOTTIE         = "6.1.0"
     const val DATASTORE_PREFERENCES  = "1.0.0"
     const val HILT                   = "2.48"
+    const val INFO_BAR               = "1.0.0"
     const val JUNIT                  = "4.13.2"
     const val KOTLIN                 = "1.8.10"
     const val KOTLIN_COROUTINES      = "1.6.4"

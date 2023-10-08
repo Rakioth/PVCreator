@@ -19,6 +19,7 @@ object Libs {
     const val DATASTORE_PREFERENCES          = "androidx.datastore:datastore-preferences:${Versions.DATASTORE_PREFERENCES}"
     const val HILT_ANDROID                   = "com.google.dagger:hilt-android:${Versions.HILT}"
     const val HILT_ANDROID_COMPILER          = "com.google.dagger:hilt-android-compiler:${Versions.HILT}"
+    const val INFO_BAR                       = "com.radusalagean:info-bar-compose:${Versions.INFO_BAR}"
     const val JUNIT                          = "junit:junit:${Versions.JUNIT}"
     const val KOTLIN_COROUTINES              = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.KOTLIN_COROUTINES}"
     const val NAVIGATION_COMPOSE             = "androidx.navigation:navigation-compose:${Versions.NAVIGATION_COMPOSE}"

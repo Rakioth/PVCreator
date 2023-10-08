@@ -17,11 +17,11 @@ import com.raks.pvcreator.presentation.states.ThemeState
 
 @Composable
 fun AnimationSwitcher(
-    state:    ThemeState,
+    state:    ThemeState?,
     position: LayoutCoordinates?,
     view:     Bitmap?,
 ) {
-    if (position != null && view != null)
+    if (state != null && position != null && view != null)
         Canvas(
             modifier = Modifier
                 .fillMaxSize()
