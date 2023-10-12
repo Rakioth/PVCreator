@@ -39,7 +39,6 @@ fun PvPicker(
         onScrollFinished   = onScrollFinished,
     ) { index ->
         Text(
-//            text     = stringResName(options[index].ref),
             text     = options[index].ref,
             style    = style,
             color    = color,

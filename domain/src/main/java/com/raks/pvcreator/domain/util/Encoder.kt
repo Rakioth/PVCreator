@@ -48,7 +48,6 @@ object Encoder {
     fun getBarcode(pvCreator: PvCreator): List<String> {
         if (pvCreator.cardPayload)
             return pvCreator.item
-                .reversed()
                 .chunked(113)
 
         val barPattern = mapOf(

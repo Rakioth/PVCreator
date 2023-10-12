@@ -45,6 +45,7 @@ fun ColumnScope.PvTextField(
 ) {
     val focusManager              = LocalFocusManager.current
     val imeIsVisible              = WindowInsets.isImeVisible
+    val optionsRef                = options.map { it.copy(ref = stringResName(it.ref)) }
     val units                     = Units(LocalCardSize.current, LocalContext.current)
     val customTextSelectionColors = TextSelectionColors(
         handleColor     = MaterialTheme.colorScheme.outlineVariant,
@@ -60,10 +61,10 @@ fun ColumnScope.PvTextField(
         if (!imeIsVisible) focusManager.clearFocus()
     }
 
-    LaunchedEffect(options) {
-        if (options.isNotEmpty() && isPicker) {
-            onScrollFinished(options[0])
-            text  = options[0].ref
+    LaunchedEffect(optionsRef) {
+        if (optionsRef.isNotEmpty() && isPicker) {
+            onScrollFinished(optionsRef[0])
+            text  = optionsRef[0].ref
             index = 0
         }
     }
@@ -123,7 +124,6 @@ fun ColumnScope.PvTextField(
                 CompositionLocalProvider(LocalTextSelectionColors provides customTextSelectionColors) {
                     BasicTextField(
                         value         = text,
-//                        value         = if (isPicker) stringResName(text) else text,
                         onValueChange = { inputText ->
                             val filteredText = inputText
                                 .take(MAX_CHARS)
@@ -167,7 +167,7 @@ fun ColumnScope.PvTextField(
 
         if (isPicker)
             PvBottomSheet(
-                options          = options,
+                options          = optionsRef,
                 isSheetOpen      = isSheetOpen,
                 startIndex       = index,
                 onScrollFinished = { pickerOption: PickerOption, i: Int ->
