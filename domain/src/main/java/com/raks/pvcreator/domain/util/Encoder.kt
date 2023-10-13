@@ -1,6 +1,5 @@
 package com.raks.pvcreator.domain.util
 
-import org.apache.commons.codec.binary.Hex
 import kotlin.experimental.xor
 
 object Encoder {
@@ -87,21 +86,18 @@ object Encoder {
         val sb = StringBuilder()
 
         sb.append(START_PAYLOAD)
+          .append(pvCreator.durationPayload)
           .append(pvCreator.itemPayload)
           .append(pvCreator.namePayload)
           .append(pvCreator.wildcardPayload)
           .append(pvCreator.variantPayload)
           .append(END_PAYLOAD)
 
-        var encodedData = sb.toString()
-
-        for (i in 60..240 step 60)
-            if (encodedData.length < i) {
-                encodedData = encodedData.padEnd(i, '0')
-                break
-            }
+        val encodedData = sb.toString()
+        val padding     = if (encodedData.length % 60 != 0) 60 - (encodedData.length % 60) else 0
 
         return encodedData
+            .padEnd(encodedData.length + padding, '0')
             .chunked(60)
             .joinToString("") { obfuscate(it) }
     }
@@ -142,17 +138,17 @@ object Encoder {
             .toString(16)
             .padStart(16, '0')
 
-        val bytesXor    = Hex.decodeHex(heXor)
-        val bytesNegate = Hex.decodeHex(negate[index!!])
+        val bytesXor    = heXor.parseHex()
+        val bytesNegate = negate[index!!].parseHex()
 
         for (i in bytesXor.indices)
             bytesXor[i] = bytesXor[i] xor bytesNegate[i]
 
         val obfuscatedRow = StringBuilder()
-        Hex.encodeHex(bytesXor)
-            .forEach { c ->
-                obfuscatedRow.append(obfuscationTable.entries.find { it.value == c }?.key)
-            }
+        bytesXor.formatHex()
+                .forEach { c ->
+                    obfuscatedRow.append(obfuscationTable.entries.find { it.value == c }?.key)
+                }
 
         return obfuscatedRow.toString()
     }

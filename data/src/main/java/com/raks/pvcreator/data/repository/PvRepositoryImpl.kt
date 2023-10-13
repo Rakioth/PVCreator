@@ -21,4 +21,7 @@ class PvRepositoryImpl(
     override suspend fun getWildcards(id: Int): List<PickerOption> =
         dao.getAllWildcards(id).map { it.toDomain() }
 
+    override suspend fun getDurations():        List<PickerOption> =
+        dao.getAllDurations().map { it.toDomain() }
+
 }

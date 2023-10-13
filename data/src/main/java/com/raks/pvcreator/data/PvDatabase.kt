@@ -6,7 +6,7 @@ import com.raks.pvcreator.data.dao.PvDao
 import com.raks.pvcreator.data.entity.*
 
 @Database(
-    entities     = [Card::class, Item::class, Variant::class, Wildcard::class],
+    entities     = [Card::class, Item::class, Variant::class, Wildcard::class, Duration::class],
     version      = 1,
     exportSchema = false,
 )

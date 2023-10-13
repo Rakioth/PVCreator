@@ -27,21 +27,28 @@ fun PvLayout(
                 options          = state.items,
                 onScrollFinished = { viewModel.onEvent(PvEvent.InputItem(it)) },
             )
-            PvTextField(
-                label            = R.string.label_variant,
-                options          = state.variants,
-                isVisible        = state.isEggType || !state.isOtherType,
-                onScrollFinished = { viewModel.onEvent(PvEvent.InputVariant(it)) },
-            )
+            if (state.isWeatherType)
+                PvTextField(
+                    label            = R.string.label_duration,
+                    options          = state.durations,
+                    onScrollFinished = { viewModel.onEvent(PvEvent.InputDuration(it)) },
+                )
+            else
+                PvTextField(
+                    label            = R.string.label_variant,
+                    options          = state.variants,
+                    isVisible        = state.isEggType,
+                    onScrollFinished = { viewModel.onEvent(PvEvent.InputVariant(it)) },
+                )
             PvTextField(
                 label            = R.string.label_wildcard,
                 options          = state.wildcards,
-                isVisible        = state.isEggType || !state.isOtherType,
+                isVisible        = state.isEggType,
                 onScrollFinished = { viewModel.onEvent(PvEvent.InputWildcard(it)) },
             )
             PvTextField(
                 label            = R.string.label_name,
-                isVisible        = !(state.isEggType || state.isOtherType),
+                isVisible        = state.isPinataType,
                 isPicker         = false,
                 onValueChange    = { viewModel.onEvent(PvEvent.InputName(it)) },
             )

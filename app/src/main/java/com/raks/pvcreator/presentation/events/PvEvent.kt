@@ -7,5 +7,6 @@ sealed class PvEvent {
     data class InputItem(val pickerOption: PickerOption)     : PvEvent()
     data class InputVariant(val pickerOption: PickerOption)  : PvEvent()
     data class InputWildcard(val pickerOption: PickerOption) : PvEvent()
+    data class InputDuration(val pickerOption: PickerOption) : PvEvent()
     data class InputName(val name: String)                   : PvEvent()
 }

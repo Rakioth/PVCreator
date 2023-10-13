@@ -31,6 +31,5 @@ android {
 }
 
 dependencies {
-    implementation(Libs.COMMONS_CODEC)
     implementation(Libs.KOTLIN_COROUTINES)
 }

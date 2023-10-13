@@ -7,7 +7,6 @@ object Versions {
     const val ANDROIDX_TEST_ESPRESSO = "3.5.1"
     const val ANDROIDX_TEST_EXT      = "1.1.5"
     const val ANDROID_GRADLE         = "8.0.0"
-    const val COMMONS_CODEC          = "1.15"
     const val COMPOSE_LOTTIE         = "6.1.0"
     const val DATASTORE_PREFERENCES  = "1.0.0"
     const val HILT                   = "2.48"

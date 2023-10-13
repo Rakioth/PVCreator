@@ -38,6 +38,7 @@ object AppModule {
             GetItems(repository),
             GetVariants(repository),
             GetWildcards(repository),
+            GetDurations(repository),
             GetBarcode(),
         )
 

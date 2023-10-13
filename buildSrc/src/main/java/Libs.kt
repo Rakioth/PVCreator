@@ -9,7 +9,6 @@ object Libs {
     const val ANDROIDX_TEST_ESPRESSO         = "androidx.test.espresso:espresso-core:${Versions.ANDROIDX_TEST_ESPRESSO}"
     const val ANDROIDX_TEST_EXT_JUNIT        = "androidx.test.ext:junit:${Versions.ANDROIDX_TEST_EXT}"
     const val ANDROIDX_VIEWMODEL             = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.ANDROIDX_LIFECYCLE}"
-    const val COMMONS_CODEC                  = "commons-codec:commons-codec:${Versions.COMMONS_CODEC}"
     const val COMPOSE_JUNIT                  = "androidx.compose.ui:ui-test-junit4:${Versions.ANDROIDX_COMPOSE}"
     const val COMPOSE_LOTTIE                 = "com.airbnb.android:lottie-compose:${Versions.COMPOSE_LOTTIE}"
     const val COMPOSE_MANIFEST               = "androidx.compose.ui:ui-test-manifest:${Versions.ANDROIDX_COMPOSE}"

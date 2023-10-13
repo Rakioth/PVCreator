@@ -30,6 +30,7 @@ class PvViewModel @Inject constructor(
                 items     = pvUseCases.getItems(pvCreator.value.card),
                 variants  = pvUseCases.getVariants(pvCreator.value.card),
                 wildcards = pvUseCases.getWildcards(pvCreator.value.card),
+                durations = pvUseCases.getDurations(),
             )
 
             pvCreator.collect {
@@ -45,19 +46,20 @@ class PvViewModel @Inject constructor(
 
             is PvEvent.InputCard     -> {
                 state = when (event.pickerOption.id) {
-                    1    -> state.copy(isEggType = false, isOtherType = false)
-                    2    -> state.copy(isEggType = true,  isOtherType = false)
-                    else -> state.copy(isEggType = false, isOtherType = true)
+                    PvCreator.TYPE_PINATA  -> state.copy(isPinataType = true,  isEggType = true,  isWeatherType = false)
+                    PvCreator.TYPE_EGG     -> state.copy(isPinataType = false, isEggType = true,  isWeatherType = false)
+                    PvCreator.TYPE_WEATHER -> state.copy(isPinataType = false, isEggType = false, isWeatherType = true)
+                    else                   -> state.copy(isPinataType = false, isEggType = false, isWeatherType = false)
                 }
 
                 viewModelScope.launch {
                     state = state.copy(
-                        items = pvUseCases.getItems(event.pickerOption.id),
+                        items = pvUseCases.getItems(event.pickerOption.id)
                     )
 
                     pvCreator.update {
                         it.copy(
-                            card = event.pickerOption.id,
+                            card = event.pickerOption.id
                         )
                     }
                 }
@@ -65,7 +67,7 @@ class PvViewModel @Inject constructor(
 
             is PvEvent.InputItem     -> {
                 viewModelScope.launch {
-                    if (!pvCreator.value.cardPayload)
+                    if (pvCreator.value.card in setOf(PvCreator.TYPE_PINATA, PvCreator.TYPE_EGG))
                         state = state.copy(
                             variants  = pvUseCases.getVariants(event.pickerOption.id),
                             wildcards = pvUseCases.getWildcards(event.pickerOption.id),
@@ -91,6 +93,14 @@ class PvViewModel @Inject constructor(
                 pvCreator.update {
                     it.copy(
                         wildcard = event.pickerOption.code
+                    )
+                }
+            }
+
+            is PvEvent.InputDuration -> {
+                pvCreator.update {
+                    it.copy(
+                        duration = event.pickerOption.code!!
                     )
                 }
             }

@@ -12,4 +12,6 @@ interface PvRepository {
 
     suspend fun getWildcards(id: Int): List<PickerOption>
 
+    suspend fun getDurations():        List<PickerOption>
+
 }

@@ -19,4 +19,7 @@ interface PvDao {
     @Query("SELECT * FROM wildcards WHERE pid = :id OR eid = :id")
     suspend fun getAllWildcards(id: Int): List<Wildcard>
 
+    @Query("SELECT * FROM durations")
+    suspend fun getAllDurations():        List<Duration>
+
 }

@@ -5,38 +5,71 @@ data class PvCreator(
     val item:     String,
     val variant:  String?,
     val wildcard: String?,
-    val name:     String?,
+    val duration: String,
+    val name:     String,
 ) {
 
     companion object {
         private const val ITEM_PAYLOAD       = "00001"
         private const val VARIANT_PAYLOAD    = "01010"
         private const val WILDCARD_PAYLOAD   = "01001"
+        private const val WEATHER_PAYLOAD    = "10010"
+        private const val DURATION_PAYLOAD   = "10011"
         private const val NAME_START_PAYLOAD = "00111"
         private const val NAME_END_PAYLOAD   = "00000"
+        private const val EMPTY_PAYLOAD      = ""
 
-        fun default() = PvCreator(1, "000000110000", null, null, "")
+        const val TYPE_PINATA                = 1
+        const val TYPE_EGG                   = 2
+        const val TYPE_WEATHER               = 21
+
+        fun default() = PvCreator(1, "000000110000", null, null, "01001111", "")
     }
 
     val cardPayload:     Boolean
-        get() = card !in 1..2
+        get() = card !in setOf(TYPE_PINATA, TYPE_EGG, TYPE_WEATHER)
 
     val itemPayload:     String
-        get() = item.let                { "$ITEM_PAYLOAD$it" }
+        get() = toItemPayload()
 
     val variantPayload:  String
-        get() = variant?.let            { "$VARIANT_PAYLOAD$it" } ?: ""
+        get() = toVariantPayload()
 
     val wildcardPayload: String
-        get() = wildcard?.let           { "$WILDCARD_PAYLOAD$it" } ?: ""
+        get() = toWildcardPayload()
+
+    val durationPayload: String
+        get() = toDurationPayload()
 
     val namePayload:     String
-        get() = toBits(name, card)?.let { "$NAME_START_PAYLOAD$it$NAME_END_PAYLOAD" } ?: ""
+        get() = toNamePayload()
 
-    private fun toBits(name: String?, card: Int): String? {
-        if (card != 1)            return null
-        if (name.isNullOrBlank()) return null
+    private fun toItemPayload():     String = when (card) {
+        TYPE_WEATHER -> "$WEATHER_PAYLOAD$item"
+        else         -> "$ITEM_PAYLOAD$item"
+    }
 
+    private fun toVariantPayload():  String = when (card) {
+        TYPE_PINATA, TYPE_EGG -> variant?.let { "$VARIANT_PAYLOAD$it" } ?: EMPTY_PAYLOAD
+        else                  -> EMPTY_PAYLOAD
+    }
+
+    private fun toWildcardPayload(): String = when (card) {
+        TYPE_PINATA, TYPE_EGG -> wildcard?.let { "$WILDCARD_PAYLOAD$it" } ?: EMPTY_PAYLOAD
+        else                  -> EMPTY_PAYLOAD
+    }
+
+    private fun toDurationPayload(): String = when (card) {
+        TYPE_WEATHER -> "$DURATION_PAYLOAD$duration"
+        else         -> EMPTY_PAYLOAD
+    }
+
+    private fun toNamePayload():     String = when (card) {
+        TYPE_PINATA -> "$NAME_START_PAYLOAD${nameToBits()}$NAME_END_PAYLOAD"
+        else        -> EMPTY_PAYLOAD
+    }
+
+    private fun nameToBits(): String {
         val bits = StringBuilder()
         name.codePoints()
             .forEach {

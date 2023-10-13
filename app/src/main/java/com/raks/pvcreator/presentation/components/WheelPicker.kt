@@ -66,7 +66,8 @@ internal fun WheelPicker(
         LazyColumn(
             modifier       = Modifier
                       .fillMaxWidth()
-                      .height(height),
+                      .height(height)
+                      .padding(horizontal = 16.dp),
             state          = lazyListState,
             contentPadding = PaddingValues(vertical = height / rowCount * ((rowCount - 1) / 2)),
             flingBehavior  = rememberSnapperFlingBehavior(lazyListState = lazyListState),
