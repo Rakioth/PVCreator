@@ -10,12 +10,11 @@ android {
     compileSdk = Apps.COMPILE_SDK
 
     defaultConfig {
-        applicationId             = Apps.APPLICATION_ID
-        minSdk                    = Apps.MIN_SDK
-        targetSdk                 = Apps.TARGET_SDK
-        versionCode               = Apps.VERSION_CODE
-        versionName               = Apps.VERSION_NAME
-        testInstrumentationRunner = Apps.TEST_INSTRUMENTATION_RUNNER
+        applicationId = Apps.APPLICATION_ID
+        minSdk        = Apps.MIN_SDK
+        targetSdk     = Apps.TARGET_SDK
+        versionCode   = Apps.VERSION_CODE
+        versionName   = Apps.VERSION_NAME
 
         vectorDrawables {
             useSupportLibrary = true
@@ -71,10 +70,4 @@ dependencies {
     implementation(Libs.NAVIGATION_HILT)
     implementation(Libs.PICKER_SNAPPER)
     ksp(Libs.HILT_ANDROID_COMPILER)
-    testImplementation(Libs.JUNIT)
-    androidTestImplementation(Libs.ANDROIDX_TEST_ESPRESSO)
-    androidTestImplementation(Libs.ANDROIDX_TEST_EXT_JUNIT)
-    androidTestImplementation(Libs.COMPOSE_JUNIT)
-    debugImplementation(Libs.COMPOSE_MANIFEST)
-    debugImplementation(Libs.COMPOSE_TOOLING)
 }

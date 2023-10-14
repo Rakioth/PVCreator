@@ -9,8 +9,7 @@ android {
     compileSdk = Apps.COMPILE_SDK
 
     defaultConfig {
-        minSdk                    = Apps.MIN_SDK
-        testInstrumentationRunner = Apps.TEST_INSTRUMENTATION_RUNNER
+        minSdk = Apps.MIN_SDK
         consumerProguardFiles("consumer-rules.pro")
     }
 
