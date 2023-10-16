@@ -6,6 +6,9 @@ object Encoder {
 
     private const val START_PAYLOAD = "0000000011011000000"
     private const val END_PAYLOAD   = "000000000"
+    private const val BAR_LENGTH    = 113
+    private const val FIRST_BITS    = 60
+    private const val LAST_BITS     = 4
 
     private val shuffle = arrayOf(
         arrayOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59),
@@ -47,7 +50,7 @@ object Encoder {
     fun getBarcode(pvCreator: PvCreator): List<String> {
         if (pvCreator.cardPayload)
             return pvCreator.item
-                .chunked(113)
+                .chunked(BAR_LENGTH)
 
         val barPattern = mapOf(
             '0' to "1110010",
@@ -70,7 +73,7 @@ object Encoder {
 
         val barcode = StringBuilder()
         encodeData(pvCreator)
-            .chunked(16)
+            .chunked(barPattern.size)
             .forEach { c ->
                 c.forEach { barcode.append(barPattern[it]) }
                 barcode.append("1")
@@ -79,7 +82,7 @@ object Encoder {
         return barcode
             .toString()
             .reversed()
-            .chunked(113)
+            .chunked(BAR_LENGTH)
     }
 
     private fun encodeData(pvCreator: PvCreator): String {
@@ -94,18 +97,18 @@ object Encoder {
           .append(END_PAYLOAD)
 
         val encodedData = sb.toString()
-        val padding     = if (encodedData.length % 60 != 0) 60 - (encodedData.length % 60) else 0
+        val padding     = if (encodedData.length % FIRST_BITS != 0) FIRST_BITS - (encodedData.length % FIRST_BITS) else 0
 
         return encodedData
             .padEnd(encodedData.length + padding, '0')
-            .chunked(60)
+            .chunked(FIRST_BITS)
             .joinToString("") { obfuscate(it) }
     }
 
     private fun obfuscate(row: String): String {
         var check            = checkDigit(row)
         val index            = check?.toInt(16)
-        val bitsXor          = arrayOfNulls<String>(60)
+        val bitsXor          = arrayOfNulls<String>(FIRST_BITS)
         val obfuscationTable = mapOf(
             "7" to '0',
             "6" to '1',
@@ -131,7 +134,7 @@ object Encoder {
         check = obfuscationTable[check]
             ?.digitToInt(16)
             ?.toString(2)
-            ?.padStart(4, '0')
+            ?.padStart(LAST_BITS, '0')
 
         val heXor = "${bitsXor.joinToString("")}$check"
             .toBigInteger(2)

@@ -19,8 +19,8 @@ Special thanks to Peter Jensen for creating the original PV Creator for iOS.
 
 ## 🎨 UI Design
 
-|                                                                              Main Screen                                                                               | Picker Screen                                                                                                                                                                | Switch Screen                                                                                                                                                                |
-|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------:|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|                                                                              Main Screen                                                                               |                                                                                Picker Screen                                                                                 |                                                                                Switch Screen                                                                                 |
+|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 | <picture><source media="(prefers-color-scheme: dark)" srcset="docs/imgs/dark/screen-main.png"><img src="docs/imgs/light/screen-main.png" alt="Main Screen"/></picture> | <picture><source media="(prefers-color-scheme: dark)" srcset="docs/imgs/dark/screen-picker.png"><img src="docs/imgs/light/screen-picker.png" alt="Picker Screen"/></picture> | <picture><source media="(prefers-color-scheme: dark)" srcset="docs/imgs/dark/screen-switch.png"><img src="docs/imgs/light/screen-switch.png" alt="Switch Screen"/></picture> |
 
 ## 🛠 Built With
@@ -39,7 +39,7 @@ Special thanks to Peter Jensen for creating the original PV Creator for iOS.
 
 ## 🏗️ Architecture Design
 
-- **This app follows the [_MVVM (Model View View-Model_)](https://developer.android.com/jetpack/docs/guide#recommended-app-arch) architecture.**
+- **This app follows the [_MVVM (Model View ViewModel)_](https://developer.android.com/jetpack/docs/guide#recommended-app-arch) architecture.**
 - **Additionally, I've implemented _Hexagonal_ architecture to enhance flexibility and adaptability.**
   - `domain` can only import files from the same folder
   - `data` can only import from `data` and `domain`

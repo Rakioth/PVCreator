@@ -20,19 +20,19 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePvDatabase(app: Application): PvDatabase =
+    fun providePvDatabase(app: Application):               PvDatabase      =
         Room.databaseBuilder(app, PvDatabase::class.java, PvDatabase.DATABASE_NAME)
             .createFromAsset("database/pvcreator.db")
             .build()
 
     @Provides
     @Singleton
-    fun providePvRepository(db: PvDatabase): PvRepository =
+    fun providePvRepository(db: PvDatabase):               PvRepository    =
         PvRepositoryImpl(db.pvDao())
 
     @Provides
     @Singleton
-    fun providePvUseCases(repository: PvRepository): PvUseCases =
+    fun providePvUseCases(repository: PvRepository):       PvUseCases      =
         PvUseCases(
             GetCards(repository),
             GetItems(repository),
@@ -44,12 +44,12 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideThemeRepository(app: Application): ThemeRepository =
+    fun provideThemeRepository(app: Application):          ThemeRepository =
         ThemeRepositoryImpl(app)
 
     @Provides
     @Singleton
-    fun provideThemeUseCases(repository: ThemeRepository): ThemeUseCases =
+    fun provideThemeUseCases(repository: ThemeRepository): ThemeUseCases   =
         ThemeUseCases(
             GetThemeConfig(repository),
             SetTheme(repository),

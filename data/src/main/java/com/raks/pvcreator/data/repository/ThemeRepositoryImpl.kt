@@ -54,12 +54,11 @@ class ThemeRepositoryImpl(
         for (icon in ThemeIcon.values())
             context.packageManager.setComponentEnabledSetting(
                 icon.getComponentName(context),
-                if (icon === themeIcon)
-                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED
-                else if (icon === ThemeIcon.DEFAULT)
-                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED
-                else
-                    PackageManager.COMPONENT_ENABLED_STATE_DEFAULT,
+                when (icon) {
+                    themeIcon         -> PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+                    ThemeIcon.DEFAULT -> PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+                    else              -> PackageManager.COMPONENT_ENABLED_STATE_DEFAULT
+                },
                 PackageManager.DONT_KILL_APP
             )
     }
