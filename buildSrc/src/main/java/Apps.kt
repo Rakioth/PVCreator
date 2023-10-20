@@ -7,6 +7,8 @@ object Apps {
     const val TARGET_SDK                 = 33
     const val VERSION_CODE               = 1
     const val VERSION_NAME               = "1.0.0"
+    const val IS_MINIFY_ENABLED          = true
+    const val IS_SHRINK_RESOURCES        = true
     const val JVM_TARGET                 = "17"
           val JAVA_COMPATIBILITY_VERSION = JavaVersion.VERSION_17
 }
