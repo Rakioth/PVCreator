@@ -15,7 +15,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = Apps.IS_MINIFY_ENABLED
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
         }
     }
 

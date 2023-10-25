@@ -25,7 +25,7 @@ android {
         release {
             isMinifyEnabled   = Apps.IS_MINIFY_ENABLED
             isShrinkResources = Apps.IS_SHRINK_RESOURCES
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
         }
     }
 
@@ -59,16 +59,13 @@ dependencies {
     implementation(Libs.ANDROIDX_ACTIVITY)
     implementation(Libs.ANDROIDX_COMPOSE)
     implementation(Libs.ANDROIDX_CORE_KTX)
-    implementation(Libs.ANDROIDX_LIFECYCLE_RUNTIME_KTX)
     implementation(Libs.ANDROIDX_ROOM_KTX)
     implementation(Libs.ANDROIDX_VIEWMODEL)
     implementation(Libs.COMPOSE_LOTTIE)
     implementation(Libs.COMPOSE_MATERIAL)
-    implementation(Libs.COMPOSE_PREVIEW)
     implementation(Libs.HILT_ANDROID)
+    implementation(Libs.HILT_NAVIGATION)
     implementation(Libs.INFO_BAR)
-    implementation(Libs.NAVIGATION_COMPOSE)
-    implementation(Libs.NAVIGATION_HILT)
     implementation(Libs.PICKER_SNAPPER)
     ksp(Libs.HILT_ANDROID_COMPILER)
 }
