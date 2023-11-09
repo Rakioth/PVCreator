@@ -6,6 +6,14 @@ internal fun DependencyHandler.implementation(dependency: Any) {
     add("implementation", dependency)
 }
 
+internal fun DependencyHandler.annotationProcessor(dependency: Any) {
+    add("annotationProcessor", dependency)
+}
+
+internal fun DependencyHandler.compileOnly(dependency: Any) {
+    add("compileOnly", dependency)
+}
+
 internal fun DependencyHandler.runtimeOnly(dependency: Any) {
     add("runtimeOnly", dependency)
 }

@@ -29,7 +29,6 @@ class AppPlugin : Plugin<Project> {
             dependencies {
                 implementation(project(":data"))
                 implementation(project(":domain"))
-                implementation(Libs.ROOM)
                 implementation(Libs.INFO_BAR)
                 implementation(Libs.PICKER_SNAPPER)
             }

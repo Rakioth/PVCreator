@@ -16,6 +16,7 @@ class DataPlugin : Plugin<Project> {
                 apply(Plugins.ANDROID_LIBRARY)
                 apply(Plugins.KOTLIN_ANDROID)
                 apply(Plugins.ROOM)
+                apply(Plugins.HILT)
             }
 
             extensions.getByType<LibraryExtension>().apply {
