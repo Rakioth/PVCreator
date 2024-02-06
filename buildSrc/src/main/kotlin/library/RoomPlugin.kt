@@ -1,12 +1,10 @@
 package library
 
-import Libs
-import Plugins
-import util.implementation
-import util.ksp
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
+import util.implementation
+import util.ksp
 
 class RoomPlugin : Plugin<Project> {
 

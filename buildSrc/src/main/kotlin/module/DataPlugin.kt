@@ -1,11 +1,14 @@
 package module
 
 import com.android.build.gradle.LibraryExtension
-import util.configBuildTypes
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.*
+import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.getByType
+import org.gradle.kotlin.dsl.project
+import util.androidTestImplementation
 import util.configAndroid
+import util.configBuildTypes
 import util.implementation
 
 class DataPlugin : Plugin<Project> {
@@ -17,10 +20,16 @@ class DataPlugin : Plugin<Project> {
                 apply(Plugins.KOTLIN_ANDROID)
                 apply(Plugins.ROOM)
                 apply(Plugins.HILT)
+                apply(Plugins.ANDROID_JUNIT)
             }
 
             extensions.getByType<LibraryExtension>().apply {
                 namespace = "${Apps.APPLICATION_ID}.data"
+
+                defaultConfig {
+                    testInstrumentationRunner = Apps.TEST_INSTRUMENTATION_RUNNER
+                }
+
                 this.configAndroid()
                 this.configBuildTypes()
             }
@@ -28,6 +37,7 @@ class DataPlugin : Plugin<Project> {
             dependencies {
                 implementation(project(":domain"))
                 implementation(Libs.DATASTORE_PREFERENCES)
+                androidTestImplementation(Libs.COROUTINES_TEST)
             }
         }
     }

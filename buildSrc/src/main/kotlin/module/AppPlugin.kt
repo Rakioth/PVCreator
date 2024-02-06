@@ -1,14 +1,14 @@
 package module
 
-import util.configApplication
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
-import util.implementation
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.project
 import util.configAndroid
+import util.configApplication
+import util.implementation
 
 class AppPlugin : Plugin<Project> {
 
@@ -19,6 +19,7 @@ class AppPlugin : Plugin<Project> {
                 apply(Plugins.KOTLIN_ANDROID)
                 apply(Plugins.COMPOSE)
                 apply(Plugins.HILT)
+                apply(Plugins.ANDROID_JUNIT)
             }
 
             extensions.getByType<BaseAppModuleExtension>().apply {
@@ -31,6 +32,7 @@ class AppPlugin : Plugin<Project> {
                 implementation(project(":domain"))
                 implementation(Libs.INFO_BAR)
                 implementation(Libs.PICKER_SNAPPER)
+                implementation(Libs.SPLASH_SCREEN)
             }
         }
     }

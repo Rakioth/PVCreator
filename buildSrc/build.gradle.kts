@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 object BuildConfig {
-    const val ANDROID_GRADLE = "8.0.0"
-    const val KOTLIN         = "1.8.10"
+    const val ANDROID_GRADLE = "8.2.0"
+    const val KOTLIN         = "1.9.0"
     const val JVM_TARGET     = "17"
 }
 
@@ -29,6 +29,14 @@ tasks.withType<KotlinCompile> {
 
 gradlePlugin {
     plugins {
+        register("library.android-junit") {
+            id                  = "library.android-junit"
+            implementationClass = "library.AndroidJUnitPlugin"
+        }
+        register("library.junit") {
+            id                  = "library.junit"
+            implementationClass = "library.JUnitPlugin"
+        }
         register("library.compose") {
             id                  = "library.compose"
             implementationClass = "library.ComposePlugin"

@@ -1,12 +1,12 @@
 package library
 
-import Libs
-import Plugins
-import util.implementation
-import util.ksp
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
+import util.androidTestImplementation
+import util.implementation
+import util.ksp
+import util.kspAndroidTest
 
 class HiltPlugin : Plugin<Project> {
 
@@ -21,6 +21,8 @@ class HiltPlugin : Plugin<Project> {
                 implementation(Libs.HILT)
                 implementation(Libs.HILT_NAVIGATION)
                 ksp(Libs.HILT_COMPILER)
+                androidTestImplementation(Libs.HILT_TESTING)
+                kspAndroidTest(Libs.HILT_COMPILER)
             }
         }
     }

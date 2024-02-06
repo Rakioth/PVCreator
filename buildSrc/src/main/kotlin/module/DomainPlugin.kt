@@ -1,14 +1,13 @@
 package module
 
-import Libs
 import com.android.build.gradle.LibraryExtension
-import util.implementation
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 import util.configAndroid
 import util.configBuildTypes
+import util.implementation
 
 class DomainPlugin : Plugin<Project> {
 
@@ -17,16 +16,18 @@ class DomainPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply(Plugins.ANDROID_LIBRARY)
                 apply(Plugins.KOTLIN_ANDROID)
+                apply(Plugins.JUNIT)
             }
 
             extensions.getByType<LibraryExtension>().apply {
                 namespace = "${Apps.APPLICATION_ID}.domain"
+
                 this.configAndroid()
                 this.configBuildTypes()
             }
 
             dependencies {
-                implementation(Libs.KOTLIN_COROUTINES)
+                implementation(Libs.COROUTINES)
             }
         }
     }

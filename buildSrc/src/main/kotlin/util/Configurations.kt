@@ -13,7 +13,7 @@ internal fun LibraryExtension.configBuildTypes() {
     }
 }
 
-internal fun CommonExtension<*, *, *, *>.configAndroid() {
+internal fun CommonExtension<*, *, *, *, *>.configAndroid() {
     compileSdk = Apps.COMPILE_SDK
 
     defaultConfig {
