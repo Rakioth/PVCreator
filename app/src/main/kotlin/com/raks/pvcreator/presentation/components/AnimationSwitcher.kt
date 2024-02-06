@@ -2,7 +2,7 @@ package com.raks.pvcreator.presentation.components
 
 import android.graphics.*
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -17,11 +17,11 @@ import com.raks.pvcreator.presentation.states.ThemeState
 
 @Composable
 fun AnimationSwitcher(
-    state:    ThemeState?,
+    state:    ThemeState,
     position: LayoutCoordinates?,
     view:     Bitmap?,
 ) {
-    if (state != null && position != null && view != null)
+    if (position != null && view != null)
         Canvas(
             modifier = Modifier
                 .fillMaxSize()

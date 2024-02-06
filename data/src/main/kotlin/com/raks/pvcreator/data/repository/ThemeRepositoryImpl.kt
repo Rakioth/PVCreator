@@ -5,8 +5,8 @@ import android.content.pm.PackageManager
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
-import com.raks.pvcreator.domain.model.ThemeIcon
 import com.raks.pvcreator.domain.model.ThemeConfig
+import com.raks.pvcreator.domain.model.ThemeIcon
 import com.raks.pvcreator.domain.repository.ThemeRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -37,7 +37,7 @@ class ThemeRepositoryImpl(
 
                 ThemeConfig(
                     isThemeActive,
-                    ThemeIcon.valueOf(themeIcon)
+                    ThemeIcon.valueOf(themeIcon),
                 )
             }
 
@@ -51,7 +51,7 @@ class ThemeRepositoryImpl(
             it[THEME_ICON_KEY] = themeIcon.name
         }
 
-        for (icon in ThemeIcon.values())
+        for (icon in ThemeIcon.entries)
             context.packageManager.setComponentEnabledSetting(
                 icon.getComponentName(context),
                 when (icon) {

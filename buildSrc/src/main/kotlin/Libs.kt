@@ -5,6 +5,7 @@ object Libs {
     const val COMPOSE_ACTIVITY      = "androidx.activity:activity-compose:${Versions.COMPOSE_ACTIVITY}"
     const val COMPOSE_JUNIT         = "androidx.compose.ui:ui-test-junit4:${Versions.COMPOSE}"
     const val COMPOSE_LOTTIE        = "com.airbnb.android:lottie-compose:${Versions.COMPOSE_LOTTIE}"
+    const val COMPOSE_MANIFEST      = "androidx.compose.ui:ui-test-manifest:${Versions.COMPOSE}"
     const val COMPOSE_MATERIAL      = "androidx.compose.material3:material3:${Versions.COMPOSE_MATERIAL}"
     const val COMPOSE_UI            = "androidx.compose.ui:ui:${Versions.COMPOSE}"
     const val COMPOSE_VIEWMODEL     = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.ANDROIDX_LIFECYCLE}"

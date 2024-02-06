@@ -3,9 +3,9 @@ package com.raks.pvcreator.data.di
 import android.app.Application
 import androidx.room.Room
 import com.raks.pvcreator.data.PvDatabase
-import com.raks.pvcreator.data.repository.*
-import com.raks.pvcreator.domain.repository.*
-import com.raks.pvcreator.domain.usecase.*
+import com.raks.pvcreator.data.repository.PvRepositoryImpl
+import com.raks.pvcreator.domain.repository.PvRepository
+import com.raks.pvcreator.domain.usecase.PvUseCases
 import com.raks.pvcreator.domain.usecase.pv.*
 import dagger.Module
 import dagger.Provides

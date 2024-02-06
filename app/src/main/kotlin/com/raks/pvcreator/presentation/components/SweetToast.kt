@@ -1,3 +1,5 @@
+package com.raks.pvcreator.presentation.components
+
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row

@@ -4,6 +4,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import util.androidTestImplementation
+import util.debugImplementation
 import util.implementation
 
 class ComposePlugin : Plugin<Project> {
@@ -18,6 +19,7 @@ class ComposePlugin : Plugin<Project> {
                 implementation(Libs.COMPOSE_MATERIAL)
                 implementation(Libs.COMPOSE_VIEWMODEL)
                 androidTestImplementation(Libs.COMPOSE_JUNIT)
+                debugImplementation(Libs.COMPOSE_MANIFEST)
             }
         }
     }

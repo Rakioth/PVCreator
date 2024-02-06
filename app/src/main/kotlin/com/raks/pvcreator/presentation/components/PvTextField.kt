@@ -27,7 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.raks.pvcreator.domain.model.PickerOption
 import com.raks.pvcreator.util.LocalCardSize
-import com.raks.pvcreator.util.*
+import com.raks.pvcreator.util.Units
+import com.raks.pvcreator.util.stringResName
 
 private const val MAX_CHARS = 18
 
@@ -53,7 +54,7 @@ fun ColumnScope.PvTextField(
     )
 
     var text        by remember { mutableStateOf(value) }
-    var index       by remember { mutableStateOf(0)     }
+    var index       by remember { mutableIntStateOf(0)  }
     var isFocused   by remember { mutableStateOf(false) }
     var isSheetOpen by remember { mutableStateOf(false) }
 

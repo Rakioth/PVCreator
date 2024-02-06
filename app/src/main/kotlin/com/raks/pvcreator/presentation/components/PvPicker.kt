@@ -21,11 +21,11 @@ fun PvPicker(
     style:              TextStyle                  = MaterialTheme.typography.titleLarge,
     color:              Color                      = MaterialTheme.colorScheme.secondary,
     selectorProperties: SelectorProperties         = WheelPickerDefaults.selectorProperties(
-                 enabled = true,
-                 shape   = RoundedCornerShape(8.dp),
-                 color   = MaterialTheme.colorScheme.secondaryContainer,
-                 border  = null,
-             ),
+        enabled = true,
+        shape   = RoundedCornerShape(8.dp),
+        color   = MaterialTheme.colorScheme.secondaryContainer,
+        border  = null,
+    ),
     onScrollFinished:  (PickerOption, Int) -> Unit,
 ) {
     WheelPicker(

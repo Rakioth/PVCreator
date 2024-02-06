@@ -2,7 +2,9 @@
 <resources>
     <string name="app_name">PV Creator</string>
     <string name="label_pvcard">Carta Piñata Visión</string>
+    <string name="label_switcher">Cambio de Tema</string>
     <string name="label_theme">Activando el Cambio de Tema…</string>
+    <string name="label_resource">Recurso No Encontrado</string>
     <string name="label_info">Icono Info</string>
     <string name="label_none">Ninguno</string>
     <string name="label_card">Carta</string>

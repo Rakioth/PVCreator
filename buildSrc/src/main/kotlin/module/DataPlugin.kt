@@ -27,7 +27,7 @@ class DataPlugin : Plugin<Project> {
                 namespace = "${Apps.APPLICATION_ID}.data"
 
                 defaultConfig {
-                    testInstrumentationRunner = Apps.TEST_INSTRUMENTATION_RUNNER
+                    testInstrumentationRunner = Apps.HILT_INSTRUMENTATION_RUNNER
                 }
 
                 this.configAndroid()

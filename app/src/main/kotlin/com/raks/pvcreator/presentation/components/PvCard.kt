@@ -13,8 +13,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.raks.pvcreator.R
-import com.raks.pvcreator.util.LocalTheme
 import com.raks.pvcreator.util.LocalCardSize
+import com.raks.pvcreator.util.LocalTheme
 
 @Composable
 fun PvCard(
@@ -24,8 +24,7 @@ fun PvCard(
     padding:       Dp            = 15.dp,
     textfields: @Composable ColumnScope.() -> Unit,
     barcode:    @Composable RowScope.()    -> Unit,
-
-    ) {
+) {
     val ratio = painter.intrinsicSize.width / painter.intrinsicSize.height
 
     var size by remember { mutableStateOf(IntSize.Zero) }

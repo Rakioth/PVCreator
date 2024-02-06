@@ -24,11 +24,12 @@ fun RowScope.PvBarcode(
             .weight(0.33f)
             .fillMaxSize(),
         onDraw   = {
-            val barcodeWidth  = size.width  / BARCODE_ROWS
-            val barcodeHeight = size.height / BARCODE_COLUMNS
+            val barcodeWidth   = size.width  / BARCODE_ROWS
+            val barcodeHeight  = size.height / BARCODE_COLUMNS
+            val barcodeTrimmed = barcodePattern.take(BARCODE_ROWS)
 
-            barcodePattern.forEachIndexed { index, row ->
-                val reverseIndex = barcodePattern.size - index
+            barcodeTrimmed.forEachIndexed { index, row ->
+                val reverseIndex = barcodeTrimmed.size - index
                 val x            = size.width - barcodeWidth * reverseIndex
 
                 row.forEachIndexed { offset, char ->

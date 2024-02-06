@@ -65,11 +65,14 @@ data class PvCreator(
     }
 
     private fun toNamePayload():     String = when (card) {
-        TYPE_PINATA -> "$NAME_START_PAYLOAD${nameToBits()}$NAME_END_PAYLOAD"
+        TYPE_PINATA -> nameToBits()
         else        -> EMPTY_PAYLOAD
     }
 
     private fun nameToBits(): String {
+        if (name.isBlank())
+            return EMPTY_PAYLOAD
+
         val bits = StringBuilder()
         name.codePoints()
             .forEach {
@@ -80,7 +83,7 @@ data class PvCreator(
                 )
             }
 
-        return bits.toString()
+        return "$NAME_START_PAYLOAD$bits$NAME_END_PAYLOAD"
     }
 
 }

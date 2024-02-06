@@ -30,10 +30,11 @@ internal fun BaseAppModuleExtension.configApplication() {
     namespace = Apps.APPLICATION_ID
 
     defaultConfig {
-        applicationId = Apps.APPLICATION_ID
-        targetSdk     = Apps.TARGET_SDK
-        versionCode   = Apps.VERSION_CODE
-        versionName   = Apps.VERSION_NAME
+        applicationId             = Apps.APPLICATION_ID
+        targetSdk                 = Apps.TARGET_SDK
+        versionCode               = Apps.VERSION_CODE
+        versionName               = Apps.VERSION_NAME
+        testInstrumentationRunner = Apps.JUNIT_INSTRUMENTATION_RUNNER
 
         vectorDrawables {
             useSupportLibrary = true

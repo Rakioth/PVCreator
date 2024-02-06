@@ -1,10 +1,11 @@
 package com.raks.pvcreator.data.di
 
 import android.app.Application
-import com.raks.pvcreator.data.repository.*
-import com.raks.pvcreator.domain.repository.*
-import com.raks.pvcreator.domain.usecase.*
-import com.raks.pvcreator.domain.usecase.theme.*
+import com.raks.pvcreator.data.repository.ThemeRepositoryImpl
+import com.raks.pvcreator.domain.repository.ThemeRepository
+import com.raks.pvcreator.domain.usecase.ThemeUseCases
+import com.raks.pvcreator.domain.usecase.theme.GetThemeConfig
+import com.raks.pvcreator.domain.usecase.theme.SetTheme
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

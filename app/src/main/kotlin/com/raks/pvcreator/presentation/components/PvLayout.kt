@@ -1,7 +1,7 @@
 package com.raks.pvcreator.presentation.components
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.raks.pvcreator.R
 import com.raks.pvcreator.presentation.events.PvEvent
