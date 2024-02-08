@@ -5,8 +5,8 @@ object Apps {
     const val COMPILE_SDK                  = 34
     const val MIN_SDK                      = 26
     const val TARGET_SDK                   = 34
-    const val VERSION_CODE                 = 2
-    const val VERSION_NAME                 = "1.0.1"
+    const val VERSION_CODE                 = 3
+    const val VERSION_NAME                 = "1.0.2"
     const val JUNIT_INSTRUMENTATION_RUNNER = "androidx.test.runner.AndroidJUnitRunner"
     const val HILT_INSTRUMENTATION_RUNNER  = "${APPLICATION_ID}.HiltTestRunner"
     const val IS_MINIFY_ENABLED            = true
