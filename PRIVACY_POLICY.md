@@ -14,8 +14,8 @@ If you choose to contact the developer for support or to provide feedback, we ma
 
 We will never disclose your personal information to any third party, except in the following cases:
 
-- **Express Consent:** We will share your information with third parties only if you provide explicit consent for us to do so.
-- **Legal Requirement:** We may disclose your information when required by law or to comply with a legal process, such as responding to a court order or other lawful requests.
+* **Express Consent:** We will share your information with third parties only if you provide explicit consent for us to do so.
+* **Legal Requirement:** We may disclose your information when required by law or to comply with a legal process, such as responding to a court order or other lawful requests.
 
 ### 🔄 Changes to this Privacy Policy
 
