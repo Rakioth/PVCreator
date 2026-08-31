@@ -1,29 +1,28 @@
 package com.raks.pvcreator.util
 
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.platform.LocalContext
 import com.raks.pvcreator.R
 
 @SuppressLint("DiscouragedApi")
-@Composable
-@ReadOnlyComposable
-fun stringResName(name: String): String {
-    val context = LocalContext.current
-
+fun Context.getStringByName(name: String): String {
     val id = try {
         val idField = R.string::class.java.getDeclaredField(name)
         idField.getInt(idField)
     } catch (e: Exception) {
-        context.resources.getIdentifier(name, "string", context.packageName)
+        resources.getIdentifier(name, "string", packageName)
     }
 
-    val resource = try {
-        context.getString(id)
+    return try {
+        getString(id)
     } catch (e: Exception) {
-        context.getString(R.string.label_resource)
+        getString(R.string.label_resource)
     }
-
-    return resource
 }
+
+@Composable
+@ReadOnlyComposable
+fun stringResName(name: String): String = LocalContext.current.getStringByName(name)

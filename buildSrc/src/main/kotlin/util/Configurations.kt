@@ -45,9 +45,19 @@ internal fun BaseAppModuleExtension.configApplication() {
         release {
             isMinifyEnabled   = Apps.IS_MINIFY_ENABLED
             isShrinkResources = Apps.IS_SHRINK_RESOURCES
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        }
+
+        create("minified") {
+            initWith(getByName("release"))
+            matchingFallbacks += "release"
+            signingConfig     = signingConfigs.getByName("debug")
+            proguardFile("proguard-test-rules.pro")
+            testProguardFile("proguard-test-rules.pro")
         }
     }
+
+    testBuildType = "minified"
 
     buildFeatures {
         compose = true

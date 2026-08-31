@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Label keys live in assets/database/pvcreator.db and are resolved by name at
+    runtime (see util/StringResName.kt), so the resource shrinker cannot detect
+    these strings being used and would otherwise remove them from the release APK.
+-->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@string/*"/>
